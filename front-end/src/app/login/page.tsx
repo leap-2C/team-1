@@ -6,7 +6,7 @@ const Login = () => {
       <div className="bg-amber-400 w-1/2 h-full">
         <div>
           <Coffee />
-          BUY ME COFFEE
+          BUY ME COFFEE pls
         </div>
       </div>
       <div></div>
