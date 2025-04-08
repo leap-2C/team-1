@@ -9,7 +9,7 @@ const port = 3001;
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING).then(() => {
-  console.log("database connenction established");
+  console.log("database connection established");
 });
 
 app.get("/", (req, res) => {
