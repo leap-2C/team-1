@@ -1,52 +1,98 @@
-import React from "react";
+"use client";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import ImageUploader from "@/components/ImageUploader";
 
 const Page = () => {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [about, setAbout] = useState("");
+  const [socialMedia, setSocialMedia] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleContinue = () => {
+    if (step === 1) {
+      setStep(2);
+    } else {
+      console.log("Final Step: ", { username, password });
+    }
+  };
+
   return (
-    <div className="flex flex-col w-full h-screen">
-      <div className="flex w-full h-[56px] p-2 px-4 justify-center items-center">
-        <div className="flex justify-between w-full max-w-[1440px]">
-          <p className="text-black font-inter text-[16px] font-bold leading-[20px] tracking-[0.32px]">
-            BUY ME COFFEE
-          </p>
-          <p className="text-sky-950">Log out</p>
+    <div className="flex flex-col justify-center items-center ">
+      <div className="flex w-[510px] max-w-[672px] items-center justify-center gap-6">
+        <div>
+          {step === 1 ? (
+            <>
+              <h3 className="text-[var(--text-text-foreground, #09090B)] font-inter text-[24px] font-semibold leading-[32px] tracking-[-0.6px] mt-24">
+                Complete your profile page
+              </h3>
+              <ImageUploader />
+              <div className="text-sm gap-2 mt-6">
+                Name
+                <Input
+                  className="w-[510px]"
+                  type="text"
+                  placeholder="Enter your name here"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="text-sm gap-2 mt-6">
+                About
+                <Input
+                  className="h-[131px]"
+                  type="text"
+                  placeholder="Write about yourself here"
+                  value={about}
+                  onChange={(e) => setAbout(e.target.value)}
+                />
+              </div>
+              <div className="text-sm gap-2 mt-6">
+                Social media URL
+                <Input
+                  type="text"
+                  placeholder="https://"
+                  value={socialMedia}
+                  onChange={(e) => setSocialMedia(e.target.value)}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="text-sm gap-2 mt-6">
+                First Name
+                <Input
+                  type="text"
+                  placeholder="First Name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="text-sm gap-2 mt-6">
+                Last Name
+                <Input
+                  type="password"
+                  placeholder="First Name"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
-
-      <div className="flex w-[510px] max-w-[672px]  items-center justify-center gap-[24px]">
-        <div>
-          <h3 className="text-[var(--text-text-foreground, #09090B)] font-inter text-[24px] font-semibold leading-[32px] tracking-[-0.6px]">
-            Complete your profile page
-          </h3>
-          <div className="flex justify-center items-center w-40 h-40 rounded-full bg-gray-200">
-            <Label htmlFor="picture" className="cursor-pointer">
-              Upload Photo
-              <Input id="picture" type="file" className="hidden" />
-            </Label>
-          </div>
-
-          <div>
-            Name
-            <Input
-              className="w-[510px] "
-              type="Name"
-              placeholder="Enter your name here"
-            />
-          </div>
-          <div>
-            About
-            <Input
-              className="h-[131px]"
-              type="About"
-              placeholder="Write about yourself here"
-            />
-          </div>
-          <div>
-            Social media URL
-            <Input type="Social media" placeholder="https://" />
-          </div>
-        </div>
+      <Button
+        className="flex w-[246px] h-[40px] p-2 px-4 justify-center items-center mt-6"
+        onClick={handleContinue}
+      >
+        Continue
+      </Button>
+      <div>
+        <div className="font-bold text-2xl">{step === 1}</div>
+        <div className="text-[#71717A]">{step === 1}</div>
       </div>
     </div>
   );
