@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import React from "react";
 
 type Props = {
   username: string;
@@ -13,6 +14,12 @@ export default function Step1UsernameForm({
   setUsername,
   onNext,
 }: Props) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && username.trim()) {
+      onNext();
+    }
+  };
+
   return (
     <>
       <div>
@@ -21,6 +28,7 @@ export default function Step1UsernameForm({
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="border-2 border-gray-300 rounded-md p-2 w-[359px]"
           placeholder="Enter username here"
         />

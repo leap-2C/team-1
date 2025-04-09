@@ -11,8 +11,7 @@ export default function MainRoot({
 }>) {
   const paths = usePathname();
 
-  const shouldDisplayHeader = paths !== "/login";
-  console.log("Current path:", paths);
+  const shouldDisplayHeader = paths !== "/signup" && paths !== "/login";
 
   return (
     <html lang="en">
