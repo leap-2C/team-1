@@ -81,6 +81,7 @@ export default function Step2EmailPasswordForm({
       </div>
 
       <Button
+        // root oruulah push to profile page
         className={`w-[359px] h-10 transition-colors ${
           isValidEmail(email) && isValidPassword(password)
             ? "bg-black text-white hover:bg-neutral-800"

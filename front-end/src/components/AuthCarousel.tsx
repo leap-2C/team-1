@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -58,29 +58,29 @@ const CoffeeCarousel = () => {
       </div>
 
       {/* Carousel Navigation Buttons */}
-      <button
+      <Button
         onClick={handlePrev}
         className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
       >
         <ChevronLeft />
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={handleNext}
         className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
       >
         <ChevronRight />
-      </button>
+      </Button>
 
       {/* Carousel Indicator */}
       <div className="flex justify-center mt-4 space-x-2">
         {images.map((_, index) => (
-          <button
+          <Button
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`w-3 h-3 rounded-full ${
               index === currentIndex ? "bg-yellow-500" : "bg-gray-300"
             }`}
-          ></button>
+          ></Button>
         ))}
       </div>
     </div>
