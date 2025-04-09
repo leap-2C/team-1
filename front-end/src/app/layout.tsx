@@ -4,7 +4,6 @@ import Header from "@/components/header/Header";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 
-
 export default function MainRoot({
   children,
 }: Readonly<{
@@ -12,13 +11,13 @@ export default function MainRoot({
 }>) {
   const paths = usePathname();
 
-  const shouldDisplayHeader = paths !== "/login";
+  const shouldDisplayHeader = paths !== "/log in";
   console.log("Current path:", paths);
-  
+
   return (
     <html lang="en">
       <body>
-        {shouldDisplayHeader && <Header/>}
+        {shouldDisplayHeader && <Header />}
         {children}
       </body>
     </html>
