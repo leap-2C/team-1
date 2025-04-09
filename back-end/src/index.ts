@@ -1,17 +1,25 @@
-import express from "express"
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { userRouter } from "./routers/userRouter";
+import { PrismaClient } from "@prisma/client";
 
-const app = express()
+const app = express();
 app.use(cors());
 app.use(express.json());
-const port = 3001;
+const port = 8000;
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING).then(() => {
-  console.log("database connection established");
+const prisma =new PrismaClient()
+
+app.get("/", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+
+app.use("/users", userRouter);
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });

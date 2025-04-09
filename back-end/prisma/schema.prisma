@@ -14,47 +14,47 @@ datasource db {
 }
 
 model User {
-  id               Int        @unique @default(autoincrement())
+  id               Int        @id @unique @default(autoincrement())
   email            String     @unique
   password         String
   username         String     @unique
   receivedDonation Donation[]
-  createdAt        DateTime
-  profileId        Int
-  profile          Profile[]
+  createdAt        DateTime   @default(now())
+  profileId        Int?
+  profile          Profile?
   bankCard         BankCard[]
-  updatedAt        DateTime
+  updatedAt        DateTime   @updatedAt
 }
 
 model Donation {
-  id                     Int      @unique @default(autoincrement())
+  id                     Int      @id @unique @default(autoincrement())
   amount                 Int
   specialMessage         String
   socialURLOrBuyMeCoffee String
   donorId                Int
   recipientId            Int
-  createdAt              DateTime
-  updatedAt              DateTime
-  User                   User?    @relation(fields: [userId], references: [id])
-  userId                 Int?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  User                   User     @relation(fields: [userId], references: [id])
+  userId                 Int
 }
 
 model Profile {
-  id              Int      @unique @default(autoincrement())
+  id              Int      @id @unique @default(autoincrement())
   name            String
   about           String
   avatarImage     String
   SocialMediaURL  String
   backgroundImage String
   successMessage  String
-  createdAt       DateTime
-  updatedAt       DateTime
-  userId          Int
-  User            User   @relation(fields: [userId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          Int      @unique
+  User            User     @relation(fields: [userId], references: [id])
 }
 
 model BankCard {
-  id         Int      @unique @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   country    String
   firstName  String
   lastName   String
@@ -62,6 +62,6 @@ model BankCard {
   expiryDate DateTime
   userId     Int
   user       User     @relation(fields: [userId], references: [id])
-  createdAt  DateTime
-  updatedAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
