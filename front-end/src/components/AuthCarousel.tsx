@@ -1,90 +1,73 @@
-"use client";
-
-import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  // CarouselNext,
+  // CarouselPrevious,
+} from "@/components/ui/carousel";
 
-const images = [
-  {
-    src: "icon",
-    alt: "Buy Me a Coffee Icon",
-  },
-  {
-    src: "/assets/images/coffee.png",
-    alt: "Buy Me a Coffee UI Example 1",
-  },
-  {
-    src: "/assets/images/coffee2.webp",
-    alt: "Buy Me a Coffee UI Example 2",
-  },
-];
+interface GenericCarouselProps {
+  images: { src: string; alt: string }[];
+}
 
-const CoffeeCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function GenericCarousel({ images }: GenericCarouselProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
+  useEffect(() => {
+    if (images.length === 0) return;
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [images]);
 
   return (
-    <div className="relative w-full max-w-lg mx-auto">
-      <div className="overflow-hidden rounded-lg">
-        {images[currentIndex].src === "icon" ? (
-          <div className="w-full h-auto">
-            {" "}
-            {/* Placeholder for icon */}
-            <span>☕</span>{" "}
-            {/* You can customize this with your CoffeeIcon component */}
-          </div>
-        ) : (
-          <Image
-            src={images[currentIndex].src}
-            alt={images[currentIndex].alt}
-            layout="responsive"
-            width={700}
-            height={400}
-            className="object-cover"
+    <div className="relative w-full max-w-[vw]">
+      <Carousel className="w-full relative overflow-hidden">
+        <CarouselContent
+          style={{
+            transform: `translateX(-${activeIndex * 100}%)`,
+            transition: "transform 0.8s ease-in-out",
+          }}
+        >
+          {images.map((image, index) => (
+            <CarouselItem
+              key={index}
+              className="relative w-full flex items-center justify-center"
+            >
+              <div className="relative w-80 h-80 flex items-center justify-center">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  layout="fill"
+                  className="rounded-lg"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        {/* <div className="hidden md:block">
+          <CarouselPrevious
+            onClick={() =>
+              setActiveIndex((prevIndex) =>
+                prevIndex === 0 ? images.length - 1 : prevIndex - 1
+              )
+            }
+            className="absolute left-5 top-[50%] transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-10"
           />
-        )}
-      </div>
-
-      {/* Carousel Navigation Buttons */}
-      <Button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
-      >
-        <ChevronLeft />
-      </Button>
-      <Button
-        onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
-      >
-        <ChevronRight />
-      </Button>
-
-      {/* Carousel Indicator */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {images.map((_, index) => (
-          <Button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentIndex ? "bg-yellow-500" : "bg-gray-300"
-            }`}
-          ></Button>
-        ))}
-      </div>
+          <CarouselNext
+            onClick={() =>
+              setActiveIndex((prevIndex) => (prevIndex + 1) % images.length)
+            }
+            className="absolute right-5 top-[50%] transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-10"
+          />
+        </div> */}
+      </Carousel>
     </div>
   );
-};
-
-export default CoffeeCarousel;
+}
