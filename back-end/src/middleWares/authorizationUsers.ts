@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export const authorizationMiddleware = (req, res, next) => {
+export const authorizationMiddleware = (req:Request, res:Response, next:NextFunction) => {
   const { authorization } = req.headers;
   if (!authorization)
     return res.status(401).json({ message: "unauthorized!!!" });
