@@ -1,15 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 
-export const createProfile = async (req: Request, res: Response) => {
+export const createProfile = async (req: Request, res: Response):Promise<any>=> {
+
   try {
     const { name, about, avatarImage, successMessage, SocialMediaURL, userId } =
       req.body;
     const prisma = new PrismaClient();
-
+    const id = parseInt(userId)
+    if(isNaN(id)){
+      return res.status(400).json({error:"Invalid user ID format"})
+    }
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: id,
       },
     });
 
@@ -18,7 +22,7 @@ export const createProfile = async (req: Request, res: Response) => {
     }
 
     const existingProfile = await prisma.profile.findUnique({
-      where: { userId: userId },
+      where: { userId: id },
     });
 
     if (existingProfile) {
@@ -33,7 +37,7 @@ export const createProfile = async (req: Request, res: Response) => {
         successMessage: successMessage,
         SocialMediaURL: SocialMediaURL,
         User: {
-          connect: userId,
+          connect: {id:id},
         },
       },
       include: {
