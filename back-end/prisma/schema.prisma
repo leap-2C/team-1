@@ -20,7 +20,6 @@ model User {
   username         String     @unique
   receivedDonation Donation[]
   createdAt        DateTime   @default(now())
-  profileId        Int?
   profile          Profile?
   bankCard         BankCard[]
   updatedAt        DateTime   @updatedAt
@@ -36,7 +35,7 @@ model Donation {
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
   User                   User     @relation(fields: [userId], references: [id])
-  userId                 Int
+  userId                 Int      @unique
 }
 
 model Profile {
@@ -45,11 +44,11 @@ model Profile {
   about           String
   avatarImage     String
   SocialMediaURL  String
-  backgroundImage String
+  backgroundImage String?
   successMessage  String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  userId          Int      @unique
+  userId          Int      
   User            User     @relation(fields: [userId], references: [id])
 }
 
@@ -60,7 +59,7 @@ model BankCard {
   lastName   String
   cardNumber String
   expiryDate DateTime
-  userId     Int
+  userId     Int      
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
