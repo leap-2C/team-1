@@ -9,5 +9,5 @@ import { getUser } from "../resolvers/users/getUser";
 export const userRouter = express.Router();
 
 userRouter.post("/signup", createUser);
-// userRouter.get("/", authorizationMiddleware, getUser);
+userRouter.get("/:id", getUser); 
 userRouter.post("/login", login);

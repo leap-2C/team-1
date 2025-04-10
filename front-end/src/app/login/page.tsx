@@ -7,12 +7,18 @@ import AuthCarousel from "@/components/AuthCarousel";
 import CarouselCoffeeImg from "@/assets/images/coffee.png";
 import CarouselImage2 from "@/assets/images/coffee2.webp";
 import CarouselImage3 from "@/assets/images/coffee3.png";
+import { useRouter } from "next/navigation";
+import { axiosInstance } from "@/lib/addedAxiosInstance";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { push } = useRouter();
 
   const handleLogin = () => {
     if (!email) {
@@ -30,6 +36,29 @@ const Login = () => {
     if (email && password) {
       // Perform login logic here
       console.log("Logging in with:", { email, password });
+    }
+  };
+
+  const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const address = await axiosInstance.post("/users/login", {
+        email: email,
+        password: password,
+      });
+
+      if (address.status === 200) {
+        const { token } = address.data;
+        localStorage.setItem("authorization", JSON.stringify(token));
+        push("/profile");
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log("error", err);
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data.message);
+      }
     }
   };
 
@@ -106,18 +135,20 @@ const Login = () => {
                 </div>
               )}
             </div>
-
-            <Button
-              className={`w-[359px] h-10 transition-colors ${
-                email && password
-                  ? "bg-black text-white hover:bg-neutral-800"
-                  : "bg-[#d1d1d1] text-[#a3a3a3] cursor-not-allowed"
-              }`}
-              disabled={!email || !password}
-              onClick={handleLogin}
-            >
-              Continue
-            </Button>
+            <form action="" className="" onSubmit={getUser}>
+              <Button
+              type="submit"
+                className={`w-[359px] h-10 transition-colors ${
+                  email && password
+                    ? "bg-black text-white hover:bg-neutral-800"
+                    : "bg-[#d1d1d1] text-[#a3a3a3] cursor-not-allowed"
+                }`}
+                disabled={!email || !password}
+                onClick={handleLogin}
+              >
+                Continue
+              </Button>
+            </form>
           </div>
         </div>
       </div>

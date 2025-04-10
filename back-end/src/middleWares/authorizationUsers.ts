@@ -9,7 +9,7 @@ export const authorizationMiddleware = (req:Request, res:Response, next:NextFunc
   const token = authorization.split(" ")[1];
 
   try {
-    const user = jwt.verify(token, "uneheer nuuts");
+    const user = jwt.verify(token, "logically impossible");
     req.user = user;
     next();
   } catch (err) {
