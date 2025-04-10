@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Camera } from "lucide-react";
- 
+
 const ImageUploader = () => {
   const [image, setImage] = useState(null);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {

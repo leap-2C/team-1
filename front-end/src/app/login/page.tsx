@@ -137,7 +137,7 @@ const Login = () => {
             </div>
             <form action="" className="" onSubmit={getUser}>
               <Button
-              type="submit"
+                type="submit"
                 className={`w-[359px] h-10 transition-colors ${
                   email && password
                     ? "bg-black text-white hover:bg-neutral-800"

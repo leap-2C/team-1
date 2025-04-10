@@ -6,6 +6,9 @@ import ImageUploader from "@/components/ImageUploader";
 import { X } from "lucide-react";
 import { Example } from "./_components/CountryDropdown";
 import { CardNumber } from "./_components/Card-Number";
+import { axiosInstance } from "@/lib/addedAxiosInstance";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Page = () => {
   const [step, setStep] = useState<1 | 2>(1);
@@ -13,13 +16,58 @@ const Page = () => {
   const [lastname, setLastname] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
-  const [socialMedia, setSocialMedia] = useState("");
+  const [socialMediaURL, setSocialMedia] = useState("");
   const [password] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [imageError] = useState("");
   const [nameError, setNameError] = useState("");
   const [aboutError, setAboutError] = useState("");
   const [socialMediaError, setSocialMediaError] = useState("");
+  const { push } = useRouter();
+  const [error, setError] = useState("");
+
+  const CreateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+
+      // First, login to get the token
+      const address = await axiosInstance.post("/users/login", {
+        password: password,
+      });
+
+      if (address.status === 200) {
+        const { token } = address.data;
+        localStorage.setItem("authorization", JSON.stringify(token));
+
+        const profileData = {
+          name,
+          about,
+          socialMediaURL,
+        };
+
+        const profileResponse = await axiosInstance.post(
+          "/profiles",
+          profileData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (profileResponse.status === 201) {
+          push("/profile");
+        }
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log("error", err);
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data.message);
+      }
+    }
+  };
 
   const handleContinue = () => {
     if (step === 1) {
@@ -39,7 +87,7 @@ const Page = () => {
         setAboutError("");
       }
 
-      if (!socialMedia) {
+      if (!socialMediaURL) {
         setSocialMediaError("Please enter a social link");
         hasError = true;
       } else {
@@ -104,7 +152,7 @@ const Page = () => {
                 <Input
                   type="text"
                   placeholder="https://"
-                  value={socialMedia}
+                  value={socialMediaURL}
                   onChange={(e) => setSocialMedia(e.target.value)}
                 />
                 {socialMediaError && (
