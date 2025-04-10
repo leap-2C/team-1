@@ -19,7 +19,7 @@ export const login = async (req:any, res:any) => {
       return res
         .status(400)
         .json({ message: "Username or password did not match" });
-    var token = jwt.sign({ id: user.id }, "uneheer nuuts");
+    var token = jwt.sign({ id: user.id }, "logically impossible");
     res.json({ token: token });
   } catch (err) {
     res.status(403).json({ message: "Error occurred" });

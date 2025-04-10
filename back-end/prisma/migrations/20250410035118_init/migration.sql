@@ -80,9 +80,6 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 -- CreateIndex
 CREATE UNIQUE INDEX "BankCard_id_key" ON "BankCard"("id");
 
--- CreateIndex
-CREATE UNIQUE INDEX "BankCard_userId_key" ON "BankCard"("userId");
-
 -- AddForeignKey
 ALTER TABLE "Donation" ADD CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 

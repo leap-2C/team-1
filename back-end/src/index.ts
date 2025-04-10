@@ -18,7 +18,6 @@ app.get("/", async (req, res) => {
   res.json(users);
 });
 
-
 app.use("/users", userRouter);
 app.use("/profile", profileRouter)
 
