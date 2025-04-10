@@ -4,9 +4,10 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-    "profileId" INTEGER NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -17,9 +18,11 @@ CREATE TABLE "Donation" (
     "socialURLOrBuyMeCoffee" TEXT NOT NULL,
     "donorId" INTEGER NOT NULL,
     "recipientId" INTEGER NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" INTEGER
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "Donation_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -29,11 +32,13 @@ CREATE TABLE "Profile" (
     "about" TEXT NOT NULL,
     "avatarImage" TEXT NOT NULL,
     "SocialMediaURL" TEXT NOT NULL,
-    "backgroundImage" TEXT NOT NULL,
+    "backgroundImage" TEXT,
     "successMessage" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" INTEGER NOT NULL
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -45,8 +50,10 @@ CREATE TABLE "BankCard" (
     "cardNumber" TEXT NOT NULL,
     "expiryDate" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "BankCard_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -62,13 +69,22 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "Donation_id_key" ON "Donation"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Donation_userId_key" ON "Donation"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Profile_id_key" ON "Profile"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "BankCard_id_key" ON "BankCard"("id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "BankCard_userId_key" ON "BankCard"("userId");
+
 -- AddForeignKey
-ALTER TABLE "Donation" ADD CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Donation" ADD CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
