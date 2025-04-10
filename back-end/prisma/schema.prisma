@@ -20,7 +20,7 @@ model User {
   username         String     @unique
   receivedDonation Donation[]
   createdAt        DateTime   @default(now())
-  profile          Profile?   @relation("userProfile")
+  profile          Profile? @relation("userProfile")
   bankCard         BankCard[]
   updatedAt        DateTime   @updatedAt
 }
@@ -49,7 +49,7 @@ model Profile {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   userId          Int      @unique
-  User            User     @relation("userProfile", fields: [userId], references: [id])
+  User            User     @relation("userProfile",fields: [userId], references: [id])
 }
 
 model BankCard {
@@ -59,7 +59,7 @@ model BankCard {
   lastName   String
   cardNumber String
   expiryDate DateTime
-  userId     Int
+  userId     Int      
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

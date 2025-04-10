@@ -3,4 +3,6 @@ import { createProfile } from "../resolvers/profile/createProfile";
 
 export const profileRouter = express.Router();
 
-profileRouter.post("/", createProfile)
+profileRouter.post("/", async (req, res)=>{
+    await createProfile(req, res)
+})

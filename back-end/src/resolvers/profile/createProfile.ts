@@ -52,10 +52,10 @@ export const createProfile = async (req: Request, res: Response) => {
       profile,
     });
   } catch (err) {
-    console.log();
+    console.log(err);
     res.status(500).json({
-      error: "Internet server error",
-      message: "Profile creation failed",
+      error: err,
+      message: "Profile creation ",
     });
   }
 };
