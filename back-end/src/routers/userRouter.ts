@@ -1,5 +1,4 @@
 import express from "express";
-// import {getUser} from "../resolvers/users/getUser"
 // import { validateEmail } from "../middleWares/validateEmail";
 import { authorizationMiddleware } from "../middleWares/authorizationUsers";
 import { createUser } from "../resolvers/users/createUser";
@@ -10,6 +9,6 @@ import { createProfile } from "../resolvers/users/createProfile";
 export const userRouter = express.Router();
 
 userRouter.post("/signup", createUser);
-userRouter.get("/:id", getUser); 
+userRouter.get("/:id", authorizationMiddleware, getUser);
 userRouter.post("/login", login);
-userRouter.post("/profile", createProfile)
+userRouter.post("/profile", authorizationMiddleware, createProfile);
