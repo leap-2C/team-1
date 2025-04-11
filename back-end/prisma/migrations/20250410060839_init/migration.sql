@@ -33,7 +33,7 @@ CREATE TABLE "Profile" (
     "avatarImage" TEXT NOT NULL,
     "SocialMediaURL" TEXT NOT NULL,
     "backgroundImage" TEXT,
-    "successMessage" TEXT NOT NULL,
+    "successMessage" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -69,7 +69,10 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "Donation_id_key" ON "Donation"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Donation_userId_key" ON "Donation"("userId");
+CREATE UNIQUE INDEX "Donation_donorId_key" ON "Donation"("donorId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Donation_recipientId_key" ON "Donation"("recipientId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_id_key" ON "Profile"("id");
@@ -79,6 +82,12 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "BankCard_id_key" ON "BankCard"("id");
+
+-- AddForeignKey
+ALTER TABLE "Donation" ADD CONSTRAINT "Donation_donorId_fkey" FOREIGN KEY ("donorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Donation" ADD CONSTRAINT "Donation_recipientId_fkey" FOREIGN KEY ("recipientId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Donation" ADD CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -18,11 +18,12 @@ model User {
   email            String     @unique
   password         String
   username         String     @unique
-  receivedDonation Donation[]
   createdAt        DateTime   @default(now())
   profile          Profile?   @relation("userProfile")
   bankCard         BankCard[]
   updatedAt        DateTime   @updatedAt
+  donor            Donation[] @relation("donorUser")
+  Donation         Donation[] @relation("recipientUser")
 }
 
 model Donation {
@@ -30,22 +31,23 @@ model Donation {
   amount                 Int
   specialMessage         String
   socialURLOrBuyMeCoffee String
-  donorId                Int
-  recipientId            Int
+  donorId                Int      @unique
+  donorUsers             User     @relation("donorUser", fields: [donorId], references: [id])
+  recipientId            Int      @unique
+  recipientUsers         User     @relation("recipientUser", fields: [recipientId], references: [id])
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
-  User                   User     @relation(fields: [userId], references: [id])
-  userId                 Int      @unique
+
 }
 
 model Profile {
   id              Int      @id @unique @default(autoincrement())
   name            String
-  about           String
+  about           String   @db.Text
   avatarImage     String
   SocialMediaURL  String
   backgroundImage String?
-  successMessage  String
+  successMessage  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   userId          Int      @unique
