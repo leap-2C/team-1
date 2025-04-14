@@ -10,7 +10,6 @@ export const login = async (req:any, res:any) => {
             where:{email:email}
         }
     );
-
     if (!user)
       return res
         .status(400)

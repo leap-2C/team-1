@@ -10,7 +10,7 @@ import CarouselCoffeeImg from "@/assets/images/coffee.png";
 import CarouselImage2 from "@/assets/images/coffee2.webp";
 import CarouselImage3 from "@/assets/images/coffee3.png";
 
-const Login = () => {
+const SignUp = () => {
   const [username, setUsername] = useState("");
   const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
@@ -74,6 +74,7 @@ const Login = () => {
           ) : (
             <>
               <Step2EmailPasswordForm
+                username={username}
                 email={email}
                 setEmail={setEmail}
                 password={password}
@@ -91,4 +92,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

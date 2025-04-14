@@ -3,8 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { XCircle } from "lucide-react";
 import validator from "email-validator";
+import { axiosInstance } from "@/lib/addedAxiosInstance";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {
+  username:string;
   email: string;
   setEmail: (val: string) => void;
   password: string;
@@ -24,6 +29,7 @@ const isValidPassword = (password: string) => {
 };
 
 export default function Step2EmailPasswordForm({
+  username,
   email,
   setEmail,
   password,
@@ -33,6 +39,31 @@ export default function Step2EmailPasswordForm({
   showPasswordError,
   setShowPasswordError,
 }: Props) {
+  const {push} = useRouter()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("")
+  const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const address = await axiosInstance.post("/users/signup", {
+        email: email,
+        password: password,
+        username:username
+      });
+      console.log(address.data);
+      if (address.status === 200) {
+        console.log("success");
+      }
+    } catch (error) {
+      setLoading(false);
+      
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data.status_message || "Error occurred");
+      }
+    }
+  };
   return (
     <>
       <div>
@@ -80,17 +111,19 @@ export default function Step2EmailPasswordForm({
         )}
       </div>
 
-      <Button
-        // root oruulah push to profile page
+     <form onSubmit={getUser}>
+     <Button
         className={`w-[359px] h-10 transition-colors ${
           isValidEmail(email) && isValidPassword(password)
             ? "bg-black text-white hover:bg-neutral-800"
             : "bg-[#d1d1d1] text-[#a3a3a3] cursor-not-allowed"
         }`}
         disabled={!isValidEmail(email) || !isValidPassword(password)}
+        type="submit" onClick={()=>{push("/login")}}
       >
         Continue
       </Button>
+     </form>
     </>
   );
 }
