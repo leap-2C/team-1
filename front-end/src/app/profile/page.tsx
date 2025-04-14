@@ -9,14 +9,15 @@ import { CardNumber } from "./_components/Card-Number";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAuth } from "../../../utils/userContext";
 
 const Page = () => {
   const [step, setStep] = useState<1 | 2>(1);
   const [username, setUsername] = useState("");
-  const [lastname, setLastname] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [socialMediaURL, setSocialMedia] = useState("");
+  const [lastName, setLastName] = useState("")
   const [password] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageError] = useState("");
@@ -25,20 +26,12 @@ const Page = () => {
   const [socialMediaError, setSocialMediaError] = useState("");
   const { push } = useRouter();
   const [error, setError] = useState("");
-
+  const {token} = useAuth()
+  console.log(token)
   const CreateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-
-      // First, login to get the token
-      const address = await axiosInstance.post("/users/login", {
-        password: password,
-      });
-
-      if (address.status === 200) {
-        const { token } = address.data;
-        localStorage.setItem("authorization", JSON.stringify(token));
 
         const profileData = {
           name,
@@ -47,7 +40,7 @@ const Page = () => {
         };
 
         const profileResponse = await axiosInstance.post(
-          "/profiles",
+          "users/profile",
           profileData,
           {
             headers: {
@@ -60,15 +53,14 @@ const Page = () => {
           push("/profile");
         }
       }
-    } catch (err) {
+        catch (err) {
       setLoading(false);
       console.log("error", err);
       if (axios.isAxiosError(err)) {
         setError(err.response?.data.message);
       }
     }
-  };
-
+  }
   const handleContinue = () => {
     if (step === 1) {
       let hasError = false;
@@ -187,8 +179,8 @@ const Page = () => {
                   <Input
                     type="Last name"
                     placeholder="Enter your name here"
-                    value={lastname}
-                    onChange={(e) => setLastname(e.target.value)}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
@@ -197,12 +189,15 @@ const Page = () => {
           )}
         </div>
       </div>
+      <form onSubmit={CreateProfile}>
       <Button
         className="flex w-[246px] h-[40px] p-2 px-4 justify-center items-center mt-6"
         onClick={handleContinue}
+        type="submit"
       >
         Continue
       </Button>
+      </form>
       <div></div>
     </div>
   );

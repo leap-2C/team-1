@@ -19,15 +19,15 @@ type Token = {
 };
 
 export const authorizationMiddleware = (
-  req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, // Correct type for query
-  res: Response<any>, // Removed unnecessary second type argument for Response
+  req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+  res: Response<any>,
   next: NextFunction
 ): void => {
-  // Ensure that we return `void`, not a Response
+
   const { authorization } = req.headers;
   if (!authorization) {
     res.status(401).json({ message: "Unauthorized!!!" });
-    return; // Exit early to prevent further execution
+    return; 
   }
 
   const token = authorization.split(" ")[1];
@@ -39,19 +39,19 @@ export const authorizationMiddleware = (
       const decoded = jwt.verify(token, "logically impossible") as Token;
       
       if (decoded && decoded.id) {
-        req.userId = decoded.userId; // Assign the userId to the request object
-        return next(); // Pass control to the next handler
+        req.userId = decoded.userId; 
+        return next(); 
       } else {
         res.status(401).json({ message: "Invalid token" });
-        return; // Exit early to prevent further execution
+        return;
       }
       
     } catch (err) {
       res.status(401).json({ message: "Invalid token" });
-      return; // Exit early to prevent further execution
+      return; 
     }
   } else {
     res.status(401).json({ message: "Token missing" });
-    return; // Exit early to prevent further execution
+    return; 
   }
 };

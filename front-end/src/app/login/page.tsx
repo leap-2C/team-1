@@ -34,8 +34,7 @@ const Login = () => {
     }
 
     if (email && password) {
-      // Perform login logic here
-      console.log("Logging in with:", { email, password });
+      console.log("Logging in with:", { email });
     }
   };
 
