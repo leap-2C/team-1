@@ -5,7 +5,7 @@ import { ExternalLink, Home, Settings, Compass } from "lucide-react";
 export default function DashBoard() {
   return (
     <div className="relative">
-      <div className="w-[251px] h-[156px] absolute top-[100px] left-[80px] ">
+      <div className="w-[251px] h-[156px] absolute top-[44px] left-[80px] ">
         <Link href="/home">
           <Button variant="ghost" className="justify-start w-full">
             <Home className="mr-2 h-4 w-4" />
