@@ -1,20 +1,23 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, SquareArrowDownLeft } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export default function CreatorCard({
   name,
-  bio,
-  description,
+  about,
   image,
-  socialMedia,
+  SocialMediaURL,
+  userId
 }: {
   name: string;
-  bio: string;
-  description: string;
+  about: string;
   image: string;
-  socialMedia: string;
+  SocialMediaURL
+: string;
+userId:number
 }) {
+  const {push}= useRouter()
   return (
     <div className="border rounded-2xl bg-white h-56">
       <div className="p-6">
@@ -31,20 +34,26 @@ export default function CreatorCard({
               {name}
             </h3>
           </div>
-          <Button variant={"secondary"}>
+          <Button variant={"secondary"}
+            onClick={() => {
+              push(`/donation/${userId}`);
+            }}>
             View profile <ExternalLink />
           </Button>
         </div>
         <div className="flex gap-5">
           <div className="w-1/2">
-            <div className="text-[16px] font-semibold mb-[14px]">{bio}</div>
-            <div className="text-sm text-gray-600">{description}</div>
+            <div className="text-[16px] font-semibold mb-[14px]">
+              About {name}
+            </div>
+            <div className="text-sm text-gray-600">{about}</div>
           </div>
           <div className="w-1/2">
             <div className="text-[16px] font-semibold mb-[14px]">
               Social media URL
             </div>
-            <div className="text-[14px] font-normal">{socialMedia}</div>
+            <div className="text-[14px] font-normal">{SocialMediaURL
+            }</div>
           </div>
         </div>
       </div>

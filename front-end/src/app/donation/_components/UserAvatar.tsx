@@ -3,7 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-const UserAvatar = () => {
+const UserAvatar = (props:any) => {
+  const {userProfile} = props
+  console.log(userProfile, "user")
   return (
     <div className="w-full gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
@@ -14,7 +16,7 @@ const UserAvatar = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex justify-center font-bold text-[20px] leading-[24px] tracking-normal">
-              user_name
+              about
             </div>
           </div>
           <Button
@@ -30,8 +32,7 @@ const UserAvatar = () => {
             About: user_name
           </p>
           <p className="font-light text-[14px] leading-[24px] tracking-normal">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit{" "}
+            {}
           </p>
         </div>
       </div>
