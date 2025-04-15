@@ -3,11 +3,11 @@ import React from "react";
 import Link from "next/link";
 import { Coffee } from "lucide-react";
 import { Button } from "../ui/button";
+import { useAuth } from "@/utils/userContext";
 
 
 
 const Header = () => {
-
   return (
     <div className="inset-x-0 h-[59px] bg-background flex items-center justify-center">
       <div className="flex items-center justify-between w-full max-w-screen-xl px-5 lg:px-0">

@@ -11,15 +11,18 @@ import axios from "axios";
 import { ProfileDetail, User } from "@/app/types";
 import { UserContextProps } from "../../../utils/userContext";
 import { Context } from "react";
+import { useCurrent } from "@/utils/currentUserContext";
 
 const Donation = () => {
 
   const context = useAuth()
-  if(!context){
+  const currentContext= useCurrent()
+  if(!context && !currentContext){
     return;
   }
 
-  const {token, userData, error} = context
+  const {userData, error} = context
+  const {token} = currentContext
   return (
     <div className="absolute flex flex-col items-center justify-center w-full">
       <div className="w-full max-w-[1440px] mx-auto h-[319px] rounded-xl z-0 flex items-center justify-center bg-gray-200">

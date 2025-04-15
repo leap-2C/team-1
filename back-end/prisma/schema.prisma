@@ -31,8 +31,8 @@ model Donation {
   amount                 Int
   specialMessage         String
   socialURLOrBuyMeCoffee String
-  donorId                Int       
-  donorUsers             User     @relation("donorUser", fields: [donorId], references: [id])
+  donorId                Int?      
+  donorUsers             User?     @relation("donorUser", fields: [donorId], references: [id])
   recipientId            Int   
   recipientUsers         User     @relation("recipientUser", fields: [recipientId], references: [id])
   createdAt              DateTime @default(now())

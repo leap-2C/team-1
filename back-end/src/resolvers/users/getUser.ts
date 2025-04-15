@@ -1,20 +1,21 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getUser = async (req:Request, res: Response) : Promise<any>=> {
+export const getUser = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { id } = req.params;
+    const userId = req.user?.id;
+    console.log(req.user, "id");
 
-    const userId = parseInt(id);
-    if (isNaN(userId)) {
-      return res.status(400).json({ message: "Invalid user ID" });
+    const numericId = Number(userId);
+    if (!userId || isNaN(numericId)) {
+      return res.status(400).json({ message: "Invalid or missing user ID" });
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: numericId,
       },
     });
 
