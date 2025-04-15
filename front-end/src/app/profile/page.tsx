@@ -9,7 +9,7 @@ import { CardNumber } from "./_components/Card-Number";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useAuth } from "../../../utils/userContext";
+import { useAuth } from "../../utils/userContext";
 
 const Page = () => {
   const [step, setStep] = useState<1 | 2>(1);

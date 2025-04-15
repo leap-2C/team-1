@@ -2,8 +2,19 @@ import { Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { User, ProfileDetail } from "@/app/types";
 
-const UserAvatar = () => {
+type UserAvatarProps = {
+  username: string;
+  email: string;
+  profile: ProfileDetail;
+};
+
+const UserAvatar = (props: UserAvatarProps) => {
+  const { username, email, profile } = props;
+
+  const { about, SocialMediaURL } = profile;
+
   return (
     <div className="w-full gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
@@ -14,7 +25,7 @@ const UserAvatar = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex justify-center font-bold text-[20px] leading-[24px] tracking-normal">
-              user_name
+              {username}
             </div>
           </div>
           <Button
@@ -27,11 +38,10 @@ const UserAvatar = () => {
         <Separator className="my-4" />
         <div className="gap-5 flex flex-col items-start justify-start">
           <p className="font-medium text-[16px] leading-[24px] tracking-normal">
-            About: user_name
+            About: {username}
           </p>
           <p className="font-light text-[14px] leading-[24px] tracking-normal">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit{" "}
+            {about}
           </p>
         </div>
       </div>
@@ -40,7 +50,7 @@ const UserAvatar = () => {
           Social media URL
         </p>
         <p className="font-light text-[14px] leading-[24px] tracking-normal">
-          user_social_media_url
+          {SocialMediaURL}
         </p>
       </div>
       <div className="w-full gap-2 flex flex-col rounded-lg border border-solid p-6">

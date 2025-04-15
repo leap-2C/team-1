@@ -3,7 +3,7 @@
 import Header from "@/components/header/Header";
 import { usePathname } from "next/navigation";
 import "./globals.css";
-import { UserContextProvider } from "../../utils/userContext";
+import { UserContextProvider } from "../utils/userContext";
 
 export default function MainRoot({
   children,
