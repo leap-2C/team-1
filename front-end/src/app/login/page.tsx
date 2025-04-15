@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Coffee } from "lucide-react";
+import { Coffee, EyeIcon, EyeOffIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AuthCarousel from "@/components/AuthCarousel";
 import CarouselCoffeeImg from "@/assets/images/coffee.png";
@@ -12,39 +12,49 @@ import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
 
 const Login = () => {
+  const { push } = useRouter();
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { push } = useRouter();
 
   const handleLogin = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!email) {
       setShowEmailError(true);
+      setError("Email is required");
+      return;
+    } else if (!emailRegex.test(email)) {
+      setShowEmailError(true);
+      setError("Invalid email format");
+      return;
     } else {
       setShowEmailError(false);
     }
 
     if (!password) {
       setShowPasswordError(true);
+      setError("Password is required");
+      return;
     } else {
       setShowPasswordError(false);
     }
 
-    if (email && password) {
-      console.log("Logging in with:", { email });
-    }
+    setError("");
   };
 
   const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      setLoading(true);
       const address = await axiosInstance.post("/users/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
       if (address.status === 200) {
@@ -53,11 +63,12 @@ const Login = () => {
         push("/profile");
       }
     } catch (err) {
-      setLoading(false);
       console.log("error", err);
       if (axios.isAxiosError(err)) {
         setError(err.response?.data.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,47 +117,78 @@ const Login = () => {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                }}
                 className={`w-full p-3 border rounded ${
                   showEmailError ? "border-red-500" : "border-gray-300"
                 }`}
               />
               {showEmailError && (
                 <div className="text-red-500 text-sm mt-1">
-                  Email is required
+                  {error === "Invalid email format" ? (
+                    "Please enter a valid email"
+                  ) : (
+                    <>
+                      Please enter a valid email address
+                      <br />
+                      (e.g., example@domain.com).
+                    </>
+                  )}
                 </div>
               )}
             </div>
 
-            <div className="w-[359px]">
+            <div className="w-[359px] relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full p-3 border rounded ${
+                className={`w-full p-3 border rounded pr-10 ${
                   showPasswordError ? "border-red-500" : "border-gray-300"
                 }`}
               />
+              <div
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOffIcon size={20} />
+                ) : (
+                  <EyeIcon size={20} />
+                )}
+              </div>
               {showPasswordError && (
                 <div className="text-red-500 text-sm mt-1">
                   Password is required
                 </div>
               )}
             </div>
+
             <form action="" className="" onSubmit={getUser}>
               <Button
                 type="submit"
-                className={`w-[359px] h-10 transition-colors ${
-                  email && password
+                className={`w-[359px] h-10 transition-colors flex items-center justify-center ${
+                  email && password && !loading
                     ? "bg-black text-white hover:bg-neutral-800"
                     : "bg-[#d1d1d1] text-[#a3a3a3] cursor-not-allowed"
                 }`}
-                disabled={!email || !password}
+                disabled={!email || !password || loading}
                 onClick={handleLogin}
               >
-                Continue
+                {loading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white" />
+                ) : (
+                  "Continue"
+                )}
               </Button>
+              {error && (
+                <div className="text-red-500 text-sm mt-2 text-center w-[359px]">
+                  {error}
+                </div>
+              )}
             </form>
           </div>
         </div>

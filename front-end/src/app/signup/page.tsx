@@ -51,6 +51,19 @@ const SignUp = () => {
           Log in
         </Button>
 
+        <div className="w-[388px] mb-4 mr-5.5">
+          <div className="flex justify-between text-sm font-medium mb-1">
+            <span className={step === 1 ? "text-[#ffb900]" : ""}>Step 1</span>
+            <span className={step === 2 ? "text-[#ffb900]" : ""}>Step 2</span>
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#ffb900] transition-all duration-300"
+              style={{ width: `${(step / 2) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+
         <div className="w-[407px] min-h-[256px] flex flex-col justify-evenly gap-4">
           <div>
             <div className="font-bold text-2xl">
