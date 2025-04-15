@@ -6,39 +6,22 @@ import UserAvatar from "../_components/UserAvatar";
 import DonationSection from "../_components/DonationSection";
 import { useParams, useRouter } from "next/navigation";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
-import { useAuth } from "../../../../utils/userContext";
+import { useAuth } from "../../../utils/userContext";
 import axios from "axios";
+import { ProfileDetail, User } from "@/app/types";
+import { UserContextProps } from "../../../utils/userContext";
+import { Context } from "react";
 
 const Donation = () => {
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [userProfile, setUserProfile] = useState<{}>({});
 
-  const params = useParams();
-  const id = params.userId;
-  const token = useAuth(); // ✅ Move useAuth to top
+  const context = useAuth()
+  if(!context){
+    return;
+  }
 
-  const getMovieData = async () => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get(`profile/view/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserProfile(response.data.userInfo);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data.status_message || "An error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {token, userData, error} = context
 
-  useEffect(() => {
-    getMovieData();
-  }, []);
+  if (!token) return; // push login page
 
   return (
     <div className="absolute flex flex-col items-center justify-center w-full">
@@ -46,16 +29,14 @@ const Donation = () => {
         <ImageUploaderDonation />
       </div>
 
-      {loading ? (
-        <div className="py-10 text-center text-gray-500">Loading...</div>
-      ) : (
+      {userData && (
         <div className="relative rounded-xl top-[-70px] z-20 w-full max-w-[1280px] mx-auto flex items-start justify-start gap-5">
-          <UserAvatar userProfile={userProfile}/>
-          {/* <DonationSection user={userProfile} /> */}
+          <UserAvatar {...userData} />
+          {/* <DonationSection userData={userData}/> */}
         </div>
       )}
 
-      {error && <div className="text-red-500 mt-4">{error}</div>}
+      {error ? <div className="text-red-500 mt-4">{error}</div> : null}
     </div>
   );
 };

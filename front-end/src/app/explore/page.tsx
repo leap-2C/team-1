@@ -6,7 +6,7 @@ import CreatorCard from "@/components/CreatorCard";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
-import { useAuth } from "../../../utils/userContext";
+import { useAuth } from "../../utils/userContext";
 type ProfileType = {
   id: number;
   socialMediaURL: string;
