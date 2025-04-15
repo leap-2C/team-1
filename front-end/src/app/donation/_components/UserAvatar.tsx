@@ -11,7 +11,7 @@ type UserAvatarProps = {
 };
 
 const UserAvatar = (props: UserAvatarProps) => {
-  const { username, email, profile } = props;
+  const { username, profile } = props;
 
   const { about, SocialMediaURL } = profile;
 

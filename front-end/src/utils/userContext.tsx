@@ -11,6 +11,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
 
 export type UserContextProps = {
   userData?: User;
@@ -28,15 +29,18 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState(null);
   const params = useParams();
     const id = params.userId;
+    const {push} = useRouter()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setToken(JSON.parse(localStorage.getItem("authorization") || ""));
+      const token = localStorage.getItem("authorization") || ""
+      setToken(token);
     }
   }, []);
 
   const getUserData = async () => {
-    if (!token) return null;
+    if (!token) push("/login")
+
     try {
       const response = await axiosInstance.get(`profile/view/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
