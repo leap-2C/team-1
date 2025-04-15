@@ -10,3 +10,9 @@ export type User = {
     email:string;
     profile: ProfileDetail
 }
+
+export type Donation = {
+    amount:number;
+    specialMessage:string;
+    socialURLOrBuyMeCoffee:string;
+}

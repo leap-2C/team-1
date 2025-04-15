@@ -68,7 +68,7 @@ export default function Explore() {
               <CreatorCard
                 key={profile.id}
                 {...profile}
-                socialMediaURL={profile.socialMediaURL || "N/A"}
+                socialMediaURL={profile.socialMediaURL}
               />
             ))}
           </div>
