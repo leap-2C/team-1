@@ -87,37 +87,3 @@ const HomePageUserAvatar = () => {
 export default HomePageUserAvatar;
 
 
-
-//Supporters data
-{
-  /* <div className="w-full gap-2 flex flex-col rounded-lg border border-solid p-6">
-  <p className="font-semibold text-[16px] leading-[24px] tracking-normal">
-    Recent Supporters
-  </p>
-
-  {recentSupporters.length === 0 ? (
-    <div className="w-full gap-2 flex flex-col justify-center items-center rounded-lg border border-solid p-6">
-      <p className="font-light text-[14px] leading-[24px] tracking-normal">
-        <Heart style={{fill: 'red'}} size={24} className="text-red-500" />
-      </p>
-      <p className="font-semibold text-[16px] leading-[24px] tracking-normal text-center">
-        Be the first one to support Jake
-      </p>
-    </div>
-  ) : (
-    recentSupporters.map((supporter, index) => (
-      <div key={index} className="w-full gap-2 flex flex-col justify-center items-start rounded-lg border border-solid p-6">
-        <p className="font-semibold text-[14px] leading-[24px] tracking-normal">
-          {supporter.name}
-        </p>
-        <p className="text-[14px] text-gray-500">
-          Donation: ${supporter.donation}
-        </p>
-        <p className="text-[14px] text-gray-500">
-          Comment: {supporter.comment}
-        </p>
-      </div>
-    ))
-  )}
-</div> */
-}

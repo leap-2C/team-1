@@ -16,13 +16,11 @@ import { useCurrent } from "@/utils/currentUserContext";
 const Donation = () => {
 
   const context = useAuth()
-  const currentContext= useCurrent()
-  if(!context && !currentContext){
+  if(!context){
     return;
   }
 
   const {userData, error} = context
-  const {token} = currentContext
   return (
     <div className="absolute flex flex-col items-center justify-center w-full">
       <div className="w-full max-w-[1440px] mx-auto h-[319px] rounded-xl z-0 flex items-center justify-center bg-gray-200">

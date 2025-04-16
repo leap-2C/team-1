@@ -2,7 +2,7 @@ import { Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { User, ProfileDetail } from "@/app/types";
+import {ProfileDetail } from "@/app/types";
 
 type UserAvatarProps = {
   username: string;

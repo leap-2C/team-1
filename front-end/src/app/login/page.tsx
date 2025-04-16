@@ -60,7 +60,7 @@ const Login = () => {
       if (address.status === 200) {
         const { token } = address.data;
         localStorage.setItem("authorization", JSON.stringify(token));
-        push("/profile");
+        push("/");
       }
     } catch (err) {
       console.log("error", err);
