@@ -44,7 +44,7 @@ export default function Explore() {
   }, []);
 
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex w-full min-h-screen max-w-[1440px] mx-auto">
       <div className="w-1/3">
         <DashBoard />
       </div>
