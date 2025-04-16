@@ -26,8 +26,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<User>();
   const [error, setError] = useState("");
   const params = useParams();
-  console.log(params)
-  const id = params.id;
+  const id = params.userId;
   const context = useCurrent()
 
   if(!context){
@@ -37,7 +36,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 
   const getUserData = async () => {
     if (!token) return;
-    console.log(token, id, "sad")
     try {
       const response = await axiosInstance.get(`profile/view/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -51,7 +49,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   };
-  console.log(token, id, "happy")
   useEffect(() => {
     if (id && token) {
       getUserData();
