@@ -17,6 +17,10 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       where: {
         id: numericId,
       },
+      include:{
+        profile:true,
+        Donation:true
+      }
     });
 
     if (!user) {

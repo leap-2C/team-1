@@ -8,7 +8,7 @@ export type ProfileDetail = {
 export type User = {
     username:string;
     email:string;
-    profile: ProfileDetail
+    profile: ProfileDetail | {}
 }
 
 export type Donation = {

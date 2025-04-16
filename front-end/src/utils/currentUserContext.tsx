@@ -1,9 +1,8 @@
 "use client";
 
-import { User } from "@/app/types";
+import { ProfileDetail, User } from "@/app/types";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
-import { useParams } from "next/navigation";
 import {
   createContext,
   ReactNode,
@@ -11,14 +10,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useRouter } from "next/navigation";
 
 export type CurrentUserProps = {
-    currentUserData?: User;
-    setCurrentUserData: (User: User) => void;
+  currentUserData?: User;
+  setCurrentUserData: (User: User) => void;
   error?: string;
   token: string | null;
-//   setToken:() => void;
+  //   setToken:() => void;
+  profile:ProfileDetail | null
 };
 
 export const CurrentUser = createContext<CurrentUserProps | null>(null);
@@ -30,18 +29,17 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("authorization")
-      setToken(token);
+      setToken(JSON.parse(localStorage.getItem("authorization") || ""));
     }
   }, []);
 
   const getUserData = async () => {
-    if (!token) return
+    if (!token) return;
     try {
-      const response = await axiosInstance.get("users", {
+      const response = await axiosInstance.get("/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCurrentUserData(response.data.userInfo as User);
+      setCurrentUserData(response.data.user);
     } catch (err) {
       console.log("error", err);
       if (axios.isAxiosError(err)) {
@@ -49,13 +47,17 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   };
+
   useEffect(() => {
     if (token) {
       getUserData();
     }
   }, [token]);
+
   return (
-    <CurrentUser.Provider value={{ error, token, currentUserData, setCurrentUserData }}>
+    <CurrentUser.Provider
+      value={{ error, token, currentUserData, setCurrentUserData }}
+    >
       {children}
     </CurrentUser.Provider>
   );

@@ -11,7 +11,7 @@ const DonationSection = () => {
       <div className="w-full gap-2 flex flex-col items-start justify-start mt-[32px]">
         <div className="w-full gap-2 flex flex-col items-start justify-start">
           <h1 className="font-inter font-medium text-[14px] leading-[14px] tracking-[0]">
-            Enter BuyMeCoffee or social acount URL:
+            Enter BuyMeCoffee or social account URL:
           </h1>
           <Input
             type="text"

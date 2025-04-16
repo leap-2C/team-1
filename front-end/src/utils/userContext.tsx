@@ -25,19 +25,23 @@ export const UserContext = createContext<UserContextProps | null>(null);
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<User>();
   const [error, setError] = useState("");
-  const {token} = useCurrent()
   const params = useParams();
-    const id = params.userId;
-    const {push} = useRouter()
+  const id = params.userId;
+  const context = useCurrent()
+
+  if(!context){
+    return;
+  }
+  const {token} = context;
 
   const getUserData = async () => {
-    if (!token) return
-
+    if (!token) return;
     try {
       const response = await axiosInstance.get(`profile/view/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setUserData(response.data.userInfo as User);
+      setUserData(response.data);
+      console.log(response, "sad")
     } catch (err) {
       console.log("error", err);
       if (axios.isAxiosError(err)) {
@@ -50,8 +54,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
       getUserData();
     }
   }, [id, token]);
-  console.log(token, "token")
-  console.log(userData, "data")
   return (
     <UserContext.Provider value={{ error, userData, setUserData }}>
       {children}

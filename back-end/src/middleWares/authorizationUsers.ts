@@ -31,7 +31,6 @@ export const authorizationMiddleware = (
   }
 
   const token = authorization.split(" ")[1];
-  console.log(token, "token")
 
   if (!token) {
     res.status(401).json({ message: "Token missing" });
@@ -40,7 +39,6 @@ export const authorizationMiddleware = (
 
   try {
     const decoded = jwt.verify(token, "logically impossible") as Token;
-    console.log(decoded)
 
     if (decoded && decoded.id) {
       req.user = { id: decoded.id };

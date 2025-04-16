@@ -9,10 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Supporters from "./Supporters"; 
-
+import Supporters from "./Supporters";
+import { useCurrent } from "@/utils/currentUserContext";
 
 const HomePageUserAvatar = () => {
+  const { currentUserData } = useCurrent();
+
+  if (!currentUserData) {
+    return <div className="">...Loading</div>;
+  }
+  // const {SocialMediaURL} = profile
   return (
     <div className="w-[955px] gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
@@ -24,10 +30,10 @@ const HomePageUserAvatar = () => {
             </Avatar>
             <div className="flex flex-col justify-center">
               <p className="font-bold text-[16px] leading-[24px] tracking-normal">
-                user_name
+                {currentUserData?.username}
               </p>
               <p className="text-[14px] leading-[24px] tracking-normal">
-                user_social_media_url
+                {currentUserData.profile.SocialMediaURL}
               </p>
             </div>
           </div>
@@ -65,18 +71,10 @@ const HomePageUserAvatar = () => {
             <SelectValue placeholder="Amount" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1$">
-            1$
-            </SelectItem>
-            <SelectItem value="2$">
-            2$
-            </SelectItem>
-            <SelectItem value="5$">
-            5$
-            </SelectItem>
-            <SelectItem value="10$">
-            10$
-            </SelectItem>
+            <SelectItem value="1$">1$</SelectItem>
+            <SelectItem value="2$">2$</SelectItem>
+            <SelectItem value="5$">5$</SelectItem>
+            <SelectItem value="10$">10$</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -85,39 +83,3 @@ const HomePageUserAvatar = () => {
   );
 };
 export default HomePageUserAvatar;
-
-
-
-//Supporters data
-{
-  /* <div className="w-full gap-2 flex flex-col rounded-lg border border-solid p-6">
-  <p className="font-semibold text-[16px] leading-[24px] tracking-normal">
-    Recent Supporters
-  </p>
-
-  {recentSupporters.length === 0 ? (
-    <div className="w-full gap-2 flex flex-col justify-center items-center rounded-lg border border-solid p-6">
-      <p className="font-light text-[14px] leading-[24px] tracking-normal">
-        <Heart style={{fill: 'red'}} size={24} className="text-red-500" />
-      </p>
-      <p className="font-semibold text-[16px] leading-[24px] tracking-normal text-center">
-        Be the first one to support Jake
-      </p>
-    </div>
-  ) : (
-    recentSupporters.map((supporter, index) => (
-      <div key={index} className="w-full gap-2 flex flex-col justify-center items-start rounded-lg border border-solid p-6">
-        <p className="font-semibold text-[14px] leading-[24px] tracking-normal">
-          {supporter.name}
-        </p>
-        <p className="text-[14px] text-gray-500">
-          Donation: ${supporter.donation}
-        </p>
-        <p className="text-[14px] text-gray-500">
-          Comment: {supporter.comment}
-        </p>
-      </div>
-    ))
-  )}
-</div> */
-}
