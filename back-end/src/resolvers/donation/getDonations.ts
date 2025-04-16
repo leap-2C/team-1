@@ -18,7 +18,7 @@ export const getDonation = async (req:Request, res: Response) : Promise<any>=> {
       },
       include: {
         donorUsers: {
-          select: { id: true, email: true, username: true },
+          select: { username: true, profile:true },
         },
       },
     });

@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 export const updateProfile = async (
-  req: Request, // ← Remove strict typing here
+  req: Request, 
   res: Response
 ): Promise<Response> => {
   try {
