@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 export const getUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const userId = req.user?.id;
-    console.log(req.user, "id");
 
     const numericId = Number(userId);
     if (!userId || isNaN(numericId)) {
@@ -19,7 +18,6 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       },
       include:{
         profile:true,
-        Donation:true
       }
     });
 
