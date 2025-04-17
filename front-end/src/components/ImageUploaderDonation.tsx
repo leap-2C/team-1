@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { Input } from "../../../components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Camera } from "lucide-react";
+import { Input } from "./ui/input";
 
 const ImageUploaderDonation = () => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
