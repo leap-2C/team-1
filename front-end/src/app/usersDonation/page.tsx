@@ -2,9 +2,8 @@
 
 import React from "react";
 import ImageUploaderDonation from "@/components/ImageUploaderDonation";
-import UserAvatar from "../_components/UserAvatar";
-import DonationSection from "../_components/DonationSection";
-import { useAuth } from "../../../utils/userContext";
+import UserAvatar from "../donation/_components/UserAvatar";
+import DonationSection from "@/components/DonationSection";
 
 
 const Donation = () => {
@@ -23,7 +22,7 @@ const Donation = () => {
 
       {userData && (
         <div className="relative rounded-xl top-[-70px] z-20 w-full max-w-[1280px] mx-auto flex items-start justify-start gap-5">
-          <UserAvatar {...userData} />
+          <UserAvatar{...userData} />
           <DonationSection {...userData}/>
         </div>
       )}

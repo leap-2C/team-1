@@ -4,32 +4,32 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { Example } from "./_components/CountryDropdown";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useAuth } from "@/utils/userContext";
 import { CldUploadWidget } from "next-cloudinary";
+import { useCurrent } from "@/utils/currentUserContext";
 
 const Page = () => {
-  const [step, setStep] = useState<1 | 2>(1);
-  const [username, setUsername] = useState("");
+  
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
-  const [socialMediaURL, setSocialMedia] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [SocialMediaURL, setSocialMedia] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const [nameError, setNameError] = useState("");
   const [aboutError, setAboutError] = useState("");
   const [socialMediaError, setSocialMediaError] = useState("");
 
   const { push } = useRouter();
-  const { userData, setUserData } = useAuth();
+  const { currentUserData, token } = useCurrent()
+  // const current = useCurrent();
+  // if(!current){
+  //   return <div>...Loading</div>
+  // }
+  // const { currentUserData, token } = current
 
   const handleContinue = () => {
-    if (step === 1) {
       let hasError = false;
 
       if (!name) {
@@ -42,49 +42,41 @@ const Page = () => {
         hasError = true;
       } else setAboutError("");
 
-      if (!socialMediaURL) {
+      if (!SocialMediaURL) {
         setSocialMediaError("Please enter a social link");
         hasError = true;
       } else setSocialMediaError("");
 
       if (hasError) return;
 
-      setStep(2);
-    }
   };
 
   const CreateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!userData || !userData.token || !userData.id) {
+    if (!currentUserData && !token) {
       setError("User is not authenticated. Please log in.");
       return;
     }
 
     try {
       setLoading(true);
-      setError("");
 
       const profileData = {
         name,
         about,
-        socialMediaURL,
-        userId: userData.id,
+        SocialMediaURL,
+        userId: currentUserData.id,
       };
 
       const res = await axiosInstance.post("users/profile", profileData, {
         headers: {
-          Authorization: `Bearer ${userData.token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.status === 201) {
-        const updatedUser = res.data;
-
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUserData(updatedUser);
-
-        push("/profile");
+        console.log("success")
+        push("/");
       }
     } catch (err) {
       console.error("Error while creating profile:", err);
@@ -101,8 +93,6 @@ const Page = () => {
     <div className="flex flex-col justify-center items-center">
       <div className="flex w-[510px] max-w-[672px] items-center justify-center gap-6">
         <div>
-          {step === 1 ? (
-            <>
               <h3 className="text-[24px] font-semibold mt-24">
                 Complete your profile page
               </h3>
@@ -114,7 +104,6 @@ const Page = () => {
                   )}
                 </CldUploadWidget>
               </div>
-
               <div className="text-sm gap-2 mt-6">
                 Name
                 <Input
@@ -154,7 +143,7 @@ const Page = () => {
                 <Input
                   type="text"
                   placeholder="https://"
-                  value={socialMediaURL}
+                  value={SocialMediaURL}
                   onChange={(e) => setSocialMedia(e.target.value)}
                 />
                 {socialMediaError && (
@@ -164,36 +153,6 @@ const Page = () => {
                   </p>
                 )}
               </div>
-            </>
-          ) : (
-            <>
-              <h3 className="text-[24px] font-semibold mt-24">
-                How would you like to be paid?
-              </h3>
-              <p className="opacity-50">Enter location and payment details</p>
-              <div className="mt-2">
-                <Example />
-              </div>
-              <div className="flex gap-4">
-                <div className="text-sm gap-2 mt-6 w-[249px]">
-                  First Name
-                  <Input
-                    placeholder="Enter your name here"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                </div>
-                <div className="text-sm gap-2 mt-6 w-[249px]">
-                  Last Name
-                  <Input
-                    placeholder="Enter your name here"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-              </div>
-            </>
-          )}
         </div>
       </div>
 
@@ -204,8 +163,8 @@ const Page = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Creating..." : "Continue"}
         </Button>
+        {loading && <div>...loading</div>}
       </form>
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
