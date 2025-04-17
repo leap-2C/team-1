@@ -16,11 +16,10 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
       where: {
         id: numericId,
       },
-      include:{
-        profile:true,
-      }
+      include: {
+        profile: true,
+      },
     });
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -28,6 +27,8 @@ export const getUser = async (req: Request, res: Response): Promise<any> => {
     res.json({ message: "User data fetched successfully", user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error occurred while fetching user data" });
+    res
+      .status(500)
+      .json({ message: "Error occurred while fetching user data" });
   }
 };
