@@ -2,8 +2,45 @@ import { Input } from "@/components/ui/input";
 import DonationButtons from "./DonationButtons";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useCurrent } from "@/utils/currentUserContext";
+import { useState } from "react";
+import { axiosInstance } from "@/lib/addedAxiosInstance";
+import axios from "axios";
 
 const DonationSection = () => {
+  const { currentUserData } = useCurrent();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [socialURLOrBuyMeCoffee, setSocialURLOrBuyMeCoffee] = useState("");
+
+  // const createDonation = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     setLoading(true);
+
+  //     const profileData = {
+  //       amount,
+  //       socialURLOrBuyMeCoffee,
+  //       donorId?: currentUserData.id,
+  //       recipientId:
+  //     };
+
+  //     const res = await axiosInstance.post("users/profile", profileData, {});
+
+  //     if (res.status === 201) {
+  //       console.log("success");
+  //     }
+  //   } catch (err) {
+  //     console.error("Error while creating profile:", err);
+  //     setLoading(false);
+  //     if (axios.isAxiosError(err)) {
+  //       setError(err.response?.data?.message || "Something went wrong");
+  //     } else {
+  //       setError("Unexpected error occurred");
+  //     }
+  //   }
+  // };
   return (
     <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white flex flex-col items-start justify-start">
       <h1 className="text-2xl font-medium">Buy user_name a Coffee</h1>
@@ -17,6 +54,8 @@ const DonationSection = () => {
             type="text"
             placeholder="https://www.buymeacoffee.com/username"
             className="w-full h-[40px] p-3 resize-none rounded border text-[14px]"
+            value={socialURLOrBuyMeCoffee}
+            onChange={(e) => setSocialURLOrBuyMeCoffee(e.target.value)}
           />
         </div>
         <div className="w-full gap-2 flex flex-col items-start justify-start mt-[20px]">
@@ -28,9 +67,11 @@ const DonationSection = () => {
             className="w-full h-[131px] p-3 resize-none rounded border text-[14px]"
           />
         </div>
-        <Button disabled className="w-full h-[40px] mt-[32px]">
-          Support
-        </Button>
+        <form onSubmit={createDonation}>
+          <Button disabled className="w-full h-[40px] mt-[32px]" type="submit">
+            Support
+          </Button>
+        </form>
       </div>
     </div>
   );

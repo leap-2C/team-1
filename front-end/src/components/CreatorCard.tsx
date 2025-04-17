@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 export default function CreatorCard({
   name,
   about,
-  image,
+  avatarImage,
   SocialMediaURL,
   userId,
 }: {
   name: string;
   about: string;
-  image: string;
+  avatarImage: string;
   SocialMediaURL: string;
   userId: number;
 }) {
@@ -23,7 +23,7 @@ export default function CreatorCard({
         <div className="flex items-center gap-4 justify-between">
           <div className="flex gap-1.5">
             <Image
-              src={image && image.trim() !== "" ? image : "/default-avatar.png"}
+              src={avatarImage && avatarImage.trim() !== "" ? avatarImage : "/default-avatar.png"}
               alt={name}
               width={40}
               height={40}
