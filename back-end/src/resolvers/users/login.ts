@@ -1,26 +1,45 @@
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
-export const login = async (req:any, res:any) => {
+
+const prisma = new PrismaClient();
+
+export const login = async (req: any, res: any) => {
   const { email, password } = req.body;
-  const prisma = new PrismaClient()
+
   try {
-    const user = await prisma.user.findUnique(
-        {
-            where:{email:email}
-        }
-    );
-    if (!user)
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        profile: true,
+      },
+    });
+
+    if (!user) {
       return res
         .status(400)
-        .json({ message: "Username or password did not match" });
-    if (!bcrypt.compareSync(password, user.password))
+        .json({ message: "Email or password is incorrect" });
+    }
+
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+    if (!passwordMatch) {
       return res
         .status(400)
-        .json({ message: "Username or password did not match" });
-    var token = jwt.sign({ id: user.id }, "logically impossible");
-    res.json({ token: token });
+        .json({ message: "Email or password is incorrect" });
+    }
+
+    const token = jwt.sign({ id: user.id }, "logically impossible", {
+      expiresIn: "7d", 
+    });
+
+    res.status(200).json({
+      token,
+      userId: user.id,
+      profileExists: !!user.profile,
+      message: "Login successful",
+    });
   } catch (err) {
-    res.status(403).json({ message: "Error occurred" });
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };

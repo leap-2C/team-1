@@ -11,14 +11,51 @@ import {
 } from "@/components/ui/select";
 import Supporters from "./Supporters";
 import { useCurrent } from "@/utils/currentUserContext";
+import { axiosInstance } from "@/lib/addedAxiosInstance";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const HomePageUserAvatar = () => {
-  const { currentUserData } = useCurrent();
+  const current = useCurrent();
+
+  const [donations, setDonations] = useState([]);
+  const [error, setError] = useState("");
+  const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
+
+  const currentUserData = current?.currentUserData;
+  const token = current?.token;
+
+  useEffect(() => {
+    if (!currentUserData || !token) return;
+
+    const getDonations = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/donation/${currentUserData.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setDonations(response.data.receivedUser);
+      } catch (err) {
+        console.error("error", err);
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data.message || "Something went wrong");
+        }
+      }
+    };
+
+    getDonations();
+  }, [currentUserData, token]);
 
   if (!currentUserData) {
     return <div className="">...Loading</div>;
   }
-  // const {SocialMediaURL} = profile
+
+  const totalAmount = donations?.reduce((sum: number, donation: any) => {
+    return sum = sum + Number(donation.amount);
+  }, 0)
+
   return (
     <div className="w-[955px] gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
@@ -58,7 +95,7 @@ const HomePageUserAvatar = () => {
             </Select>
           </div>
           <p className="font-bold text-[36px] leading-[24px] tracking-normal mt-6">
-            $ 0.00
+            {totalAmount}$
           </p>
         </div>
       </div>
@@ -66,19 +103,32 @@ const HomePageUserAvatar = () => {
         <p className="font-semibold text-base leading-6 tracking-normal">
           Recent transactions
         </p>
-        <Select>
+        <Select
+          onValueChange={(value) => {
+            setSelectedAmount(value === "all" ? null : value);
+          }}
+        >
           <SelectTrigger className="w-[109px]">
             <SelectValue placeholder="Amount" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1$">1$</SelectItem>
-            <SelectItem value="2$">2$</SelectItem>
-            <SelectItem value="5$">5$</SelectItem>
-            <SelectItem value="10$">10$</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="1">$1</SelectItem>
+            <SelectItem value="2">$2</SelectItem>
+            <SelectItem value="5">$5</SelectItem>
+            <SelectItem value="10">$10</SelectItem>
           </SelectContent>
         </Select>
       </div>
-      <Supporters />
+      <Supporters
+        donations={
+          selectedAmount
+            ? donations?.filter(
+                (donation: any) => String(donation.amount) === selectedAmount
+              )
+            : donations
+        }
+      />
     </div>
   );
 };
