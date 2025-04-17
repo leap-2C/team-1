@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import ImageUploaderDonation from "../_components/ImageUploaderDonation";
-import UserAvatar from "../_components/UserAvatar";
-import DonationSection from "../_components/DonationSection";
 import { useAuth } from "../../../utils/userContext";
+import ImageUploaderDonation from "@/components/ImageUploaderDonation";
+import UserAvatar from "../_components/UserAvatar";
+import DonationSection from "@/components/DonationSection";
 
 const Donation = () => {
   const context = useAuth();
@@ -20,9 +20,9 @@ const Donation = () => {
   const { userData, error } = context;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <div className="w-full max-w-full h-[319px] rounded-xl z-0 flex items-center justify-center bg-gray-200">
-        <ImageUploaderDonation />
+    <div className="absolute flex flex-col items-center justify-center w-full">
+      <div className="w-full max-w-[1440px] mx-auto h-[319px] rounded-xl z-0 flex items-center justify-center bg-gray-200">
+        <ImageUploaderDonation/>
       </div>
 
       {userData ? (
