@@ -17,7 +17,7 @@ export type CurrentUserProps = {
   error?: string;
   token: string | null;
   //   setToken:() => void;
-  profile:ProfileDetail | null
+  profile: ProfileDetail | null;
 };
 
 export const CurrentUser = createContext<CurrentUserProps | null>(null);

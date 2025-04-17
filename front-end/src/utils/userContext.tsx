@@ -1,63 +1,51 @@
 "use client";
 
-import { User } from "@/app/types";
-import { axiosInstance } from "@/lib/addedAxiosInstance";
-import axios from "axios";
-import { useParams } from "next/navigation";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useRouter } from "next/navigation";
-import { useCurrent } from "./currentUserContext";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type UserContextProps = {
-  userData?: User;
-  setUserData: (User: User) => void;
-  error?: string;
+type User = {
+  id: string;
+  email: string;
 };
 
-export const UserContext = createContext<UserContextProps | null>(null);
+interface UserContextType {
+  userData: User | null;
+  logout: () => void;
+}
 
-export const UserContextProvider = ({ children }: { children: ReactNode }) => {
-  const [userData, setUserData] = useState<User>();
-  const [error, setError] = useState("");
-  const params = useParams();
-  const id = params.userId;
-  const context = useCurrent()
+const UserContext = createContext<UserContextType>({
+  userData: null,
+  logout: () => {},
+});
 
-  if(!context){
-    return;
-  }
-  const {token} = context;
+export const UserContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [userData, setUserData] = useState<User | null>(null);
 
-  const getUserData = async () => {
-    if (!token) return;
-    try {
-      const response = await axiosInstance.get(`profile/view/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUserData(response.data);
-      console.log(response, "sad")
-    } catch (err) {
-      console.log("error", err);
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data.message);
+  useEffect(() => {
+    const saved = localStorage.getItem("user");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setUserData(parsed);
+      } catch (e) {
+        console.error("Invalid user data in storage");
       }
     }
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setUserData(null);
   };
-  useEffect(() => {
-    if (id && token) {
-      getUserData();
-    }
-  }, [id, token]);
+
   return (
-    <UserContext.Provider value={{ error, userData, setUserData }}>
+    <UserContext.Provider value={{ userData, logout }}>
       {children}
     </UserContext.Provider>
   );
 };
+
 export const useAuth = () => useContext(UserContext);

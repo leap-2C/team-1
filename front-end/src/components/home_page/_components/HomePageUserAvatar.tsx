@@ -33,7 +33,7 @@ const HomePageUserAvatar = () => {
                 {currentUserData?.username}
               </p>
               <p className="text-[14px] leading-[24px] tracking-normal">
-                {currentUserData.profile.SocialMediaURL}
+                {/* {currentUserData.profile.SocialMediaURL} */}
               </p>
             </div>
           </div>
