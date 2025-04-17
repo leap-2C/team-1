@@ -76,6 +76,11 @@ const Page = () => {
 
       if (res.status === 201) {
         console.log("success")
+
+        const updatedUser = res.data;
+
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setUserData(updatedUser);
         push("/");
       }
     } catch (err) {
