@@ -18,8 +18,8 @@ const ImageUploaderDonation = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-[1440px] h-[319px] flex justify-center items-center">
+    <div className="flex flex-col items-center w-full">
+      <div className="w-full h-[319px] flex justify-center items-center">
         {image ? (
           <Image
             src={typeof image === "string" ? image : ""}

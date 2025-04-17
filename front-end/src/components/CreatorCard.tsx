@@ -1,4 +1,4 @@
-import { ExternalLink, SquareArrowDownLeft } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
@@ -8,23 +8,22 @@ export default function CreatorCard({
   about,
   image,
   SocialMediaURL,
-  userId
+  userId,
 }: {
   name: string;
   about: string;
   image: string;
-  SocialMediaURL
-: string;
-userId:number
+  SocialMediaURL: string;
+  userId: number;
 }) {
-  const {push}= useRouter()
+  const { push } = useRouter();
   return (
     <div className="border rounded-2xl bg-white h-56">
       <div className="p-6">
         <div className="flex items-center gap-4 justify-between">
           <div className="flex gap-1.5">
             <Image
-              src={image}
+              src={image && image.trim() !== "" ? image : "/default-avatar.png"}
               alt={name}
               width={40}
               height={40}
@@ -34,10 +33,12 @@ userId:number
               {name}
             </h3>
           </div>
-          <Button variant={"secondary"}
+          <Button
+            variant={"secondary"}
             onClick={() => {
               push(`/donation/${userId}`);
-            }}>
+            }}
+          >
             View profile <ExternalLink />
           </Button>
         </div>
@@ -52,8 +53,7 @@ userId:number
             <div className="text-[16px] font-semibold mb-[14px]">
               Social media URL
             </div>
-            <div className="text-[14px] font-normal">{SocialMediaURL
-            }</div>
+            <div className="text-[14px] font-normal">{SocialMediaURL}</div>
           </div>
         </div>
       </div>
