@@ -59,7 +59,7 @@ export const createProfile = async (req: Request, res: Response):Promise<any>=> 
     console.log(err);
     res.status(500).json({
       error: err,
-      message: "Profile can",
+      message: "Profile can't create",
     });
   }
 };
