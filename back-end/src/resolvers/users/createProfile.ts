@@ -31,11 +31,11 @@ export const createProfile = async (req: Request, res: Response):Promise<any>=> 
 
     const profile = await prisma.profile.create({
       data: {
-        name: name,
-        about: about,
-        avatarImage: avatarImage,
-        successMessage: successMessage,
-        SocialMediaURL: SocialMediaURL,
+        name,
+        about,
+        avatarImage,
+        successMessage,
+        SocialMediaURL,
         User: {
           connect: {id:id},
         },
@@ -59,7 +59,7 @@ export const createProfile = async (req: Request, res: Response):Promise<any>=> 
     console.log(err);
     res.status(500).json({
       error: err,
-      message: "Profile creation ",
+      message: "Profile can",
     });
   }
 };
