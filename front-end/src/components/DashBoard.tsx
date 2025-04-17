@@ -18,7 +18,7 @@ export default function DashBoard() {
             Explore
           </Button>
         </Link>
-        <Link href="/" target="_blank" rel="noopener noreferrer">
+        <Link href="/donation" target="_blank" rel="noopener noreferrer">
           <Button variant="ghost" className="justify-start w-full">
             <ExternalLink className="mr-2 h-4 w-4" />
             View page

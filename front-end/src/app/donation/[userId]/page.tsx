@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import ImageUploaderDonation from "../_components/ImageUploaderDonation";
+import ImageUploaderDonation from "@/components/ImageUploaderDonation";
 import UserAvatar from "../_components/UserAvatar";
 import DonationSection from "../_components/DonationSection";
 import { useAuth } from "../../../utils/userContext";
+
 
 const Donation = () => {
   const context = useAuth();
