@@ -31,7 +31,7 @@ const Header = () => {
           <Button asChild>
             <Link href="/login" className="flex items-center gap-x-2">
               <Coffee className="w-5 h-5" />
-              Log In
+              Log Out
             </Link>
           </Button>
         )}
