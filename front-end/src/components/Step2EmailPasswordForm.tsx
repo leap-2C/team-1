@@ -106,7 +106,7 @@ export default function Step2EmailPasswordForm({
           />
           <button
             type="button"
-            className="absolute top-1/2 right-16 transform -translate-y-1/2 cursor-pointer text-gray-500"
+            className="absolute top-1/2 right-15 transform -translate-y-1/2 cursor-pointer text-gray-500"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
