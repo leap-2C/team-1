@@ -84,7 +84,7 @@ const Page = () => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUserData(updatedUser);
 
-        push("/profile");
+        push("/");
       }
     } catch (err) {
       console.error("Error while creating profile:", err);
