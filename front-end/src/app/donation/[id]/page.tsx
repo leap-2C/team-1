@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ImageUploaderDonation from "@/components/ImageUploaderDonation";
 import UserAvatar from "../_components/UserAvatar";
 import DonationSection from "@/components/DonationSection";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
