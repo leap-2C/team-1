@@ -101,8 +101,11 @@ const Page = () => {
           </h3>
 
           <div className="flex justify-center items-center w-40 h-40 rounded-full bg-white mt-6 border-2 border-gray-400 border-dotted relative">
-            <Cloudinary avatarImage={avatarImage} setAvatarImage={setAvatarImage}/>
-          </div>  
+            <Cloudinary
+              avatarImage={avatarImage}
+              setAvatarImage={setAvatarImage}
+            />
+          </div>
           <div className="text-sm gap-2 mt-6">
             Name
             <Input
@@ -161,7 +164,9 @@ const Page = () => {
           onClick={handleContinue}
           type="submit"
           disabled={loading}
-        ></Button>
+        >
+          Continue
+        </Button>
         {loading && <div>...loading</div>}
       </form>
 
