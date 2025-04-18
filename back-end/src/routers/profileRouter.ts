@@ -10,7 +10,7 @@ profileRouter.get("/explore", async (req, res) => {
   await getProfiles(req, res);
 });
 
-profileRouter.get("/view/:id", authorizationMiddleware, async (req, res) => {
+profileRouter.get("/view/:id", async (req, res) => {
   await viewProfile(req, res);
 });
 

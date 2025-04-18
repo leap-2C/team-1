@@ -2,15 +2,10 @@ import { Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {ProfileDetail } from "@/app/types";
+import { User } from "@/app/types";
 
-type UserAvatarProps = {
-  username: string;
-  email: string;
-  profile: ProfileDetail;
-};
 
-const UserAvatar = (props: UserAvatarProps) => {
+const UserAvatar = (props: User) => {
   const { username, profile } = props;
 
   return (
@@ -39,7 +34,7 @@ const UserAvatar = (props: UserAvatarProps) => {
             About {username}
           </p>
           <p className="font-light text-[14px] leading-[24px] tracking-normal">
-            {profile.about}
+            {profile?.about}
           </p>
         </div>
       </div>
@@ -48,7 +43,7 @@ const UserAvatar = (props: UserAvatarProps) => {
           Social media URL
         </p>
         <p className="font-light text-[14px] leading-[24px] tracking-normal">
-          {profile.SocialMediaURL}
+          {profile?.SocialMediaURL}
         </p>
       </div>
       <div className="w-full gap-2 flex flex-col rounded-lg border border-solid p-6">

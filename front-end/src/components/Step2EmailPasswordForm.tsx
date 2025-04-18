@@ -41,7 +41,7 @@ export default function Step2EmailPasswordForm({
 }: Props) {
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   // const [passwordErrorVisible, setPasswordErrorVisible] = useState(false);
 
@@ -67,6 +67,9 @@ export default function Step2EmailPasswordForm({
       }
     }
   };
+  if(loading){
+    return <div>...Loading</div>
+  }
   return (
     <>
       <div>

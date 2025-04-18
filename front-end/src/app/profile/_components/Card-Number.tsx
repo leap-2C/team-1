@@ -86,7 +86,7 @@ export const CardNumber = () => {
   );
 };
 
-function CreditCardIcon(props) {
+function CreditCardIcon(props: {className: string}) {
   return (
     <svg
       {...props}

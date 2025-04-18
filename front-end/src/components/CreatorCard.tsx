@@ -7,13 +7,14 @@ export default function CreatorCard({
   name,
   about,
   avatarImage,
-  SocialMediaURL,
+  socialMediaURL,
   userId,
 }: {
+  id: number
   name: string;
   about: string;
   avatarImage: string;
-  SocialMediaURL: string;
+  socialMediaURL: string;
   userId: number;
 }) {
   const { push } = useRouter();
@@ -53,7 +54,7 @@ export default function CreatorCard({
             <div className="text-[16px] font-semibold mb-[14px]">
               Social media URL
             </div>
-            <div className="text-[14px] font-normal">{SocialMediaURL}</div>
+            <div className="text-[14px] font-normal">{socialMediaURL}</div>
           </div>
         </div>
       </div>

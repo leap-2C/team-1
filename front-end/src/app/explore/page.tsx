@@ -7,10 +7,17 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
 import { useAuth } from "../../utils/userContext";
+
 type ProfileType = {
   id: number;
   socialMediaURL: string;
-};
+  name: string;
+  about: string;
+  avatarImage: string;
+  userId: number;
+}
+
+;
 export default function Explore() {
   const [profiles, setProfiles] = useState<ProfileType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -68,7 +75,7 @@ export default function Explore() {
               <CreatorCard
                 key={profile.id}
                 {...profile}
-                socialMediaURL={profile.socialMediaURL}
+                socialMediaURL={profile?.socialMediaURL}
               />
             ))}
           </div>

@@ -2,15 +2,11 @@ import { Input } from "@/components/ui/input";
 import DonationButtons from "./DonationButtons";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useCurrent } from "@/utils/currentUserContext";
 import { useState } from "react";
-import { axiosInstance } from "@/lib/addedAxiosInstance";
-import axios from "axios";
+
 
 const DonationSection = () => {
-  const { currentUserData } = useCurrent();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, ] = useState(false);
   const [socialURLOrBuyMeCoffee, setSocialURLOrBuyMeCoffee] = useState("");
 
   // const createDonation = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +37,9 @@ const DonationSection = () => {
   //     }
   //   }
   // };
+  if(loading){
+    return <div>...</div>
+  }
   return (
     <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white flex flex-col items-start justify-start">
       <h1 className="text-2xl font-medium">Buy user_name a Coffee</h1>
@@ -67,7 +66,7 @@ const DonationSection = () => {
             className="w-full h-[131px] p-3 resize-none rounded border text-[14px]"
           />
         </div>
-        <form onSubmit={createDonation}>
+        <form>
           <Button disabled className="w-full h-[40px] mt-[32px]" type="submit">
             Support
           </Button>
