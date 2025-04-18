@@ -45,7 +45,7 @@ export default function Step2EmailPasswordForm({
   const [showPassword, setShowPassword] = useState(false);
   // const [passwordErrorVisible, setPasswordErrorVisible] = useState(false);
 
-  const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
+  const createUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -124,7 +124,7 @@ export default function Step2EmailPasswordForm({
         )}
       </div>
 
-      <form onSubmit={getUser}>
+      <form onSubmit={createUser}>
         <Button
           className={`w-[359px] h-10 transition-colors ${
             isValidEmail(email) && isValidPassword(password)

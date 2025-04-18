@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileDetail, User } from "@/app/types";
+import { User } from "@/app/types";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
 import {
@@ -16,8 +16,6 @@ export type CurrentUserProps = {
   setCurrentUserData: (User: User) => void;
   error?: string;
   token: string | null;
-  //   setToken:() => void;
-  profile:ProfileDetail | null
 };
 
 export const CurrentUser = createContext<CurrentUserProps | null>(null);

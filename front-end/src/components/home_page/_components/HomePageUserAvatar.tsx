@@ -14,16 +14,18 @@ import { useCurrent } from "@/utils/currentUserContext";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Donation } from "@/app/types";
 
 const HomePageUserAvatar = () => {
   const current = useCurrent();
 
   const [donations, setDonations] = useState([]);
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
 
   const currentUserData = current?.currentUserData;
   const token = current?.token;
+  console.log(currentUserData)
 
   useEffect(() => {
     if (!currentUserData || !token) return;
@@ -52,17 +54,17 @@ const HomePageUserAvatar = () => {
     return <div className="">...Loading</div>;
   }
 
-  const totalAmount = donations?.reduce((sum: number, donation: any) => {
+  const totalAmount = donations?.reduce((sum: number, donation: Donation) => {
     return sum = sum + Number(donation.amount);
   }, 0)
-
+  console.log(currentUserData)
   return (
     <div className="w-[955px] gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center justify-start gap-2">
             <Avatar className="w-[48px] h-[48px]">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={currentUserData.profile?.avatarImage} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col justify-center">
@@ -124,7 +126,7 @@ const HomePageUserAvatar = () => {
         donations={
           selectedAmount
             ? donations?.filter(
-                (donation: any) => String(donation.amount) === selectedAmount
+                (donation: Donation) => String(donation.amount) === selectedAmount
               )
             : donations
         }

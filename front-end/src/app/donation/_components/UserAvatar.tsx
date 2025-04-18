@@ -13,8 +13,6 @@ type UserAvatarProps = {
 const UserAvatar = (props: UserAvatarProps) => {
   const { username, profile } = props;
 
-  const { about, SocialMediaURL } = profile;
-
   return (
     <div className="w-full gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">
@@ -38,10 +36,10 @@ const UserAvatar = (props: UserAvatarProps) => {
         <Separator className="my-4" />
         <div className="gap-5 flex flex-col items-start justify-start">
           <p className="font-medium text-[16px] leading-[24px] tracking-normal">
-            About: {username}
+            About {username}
           </p>
           <p className="font-light text-[14px] leading-[24px] tracking-normal">
-            {about}
+            {profile.about}
           </p>
         </div>
       </div>
@@ -50,7 +48,7 @@ const UserAvatar = (props: UserAvatarProps) => {
           Social media URL
         </p>
         <p className="font-light text-[14px] leading-[24px] tracking-normal">
-          {SocialMediaURL}
+          {profile.SocialMediaURL}
         </p>
       </div>
       <div className="w-full gap-2 flex flex-col rounded-lg border border-solid p-6">

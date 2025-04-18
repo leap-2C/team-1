@@ -2,8 +2,6 @@
 
 import React from "react";
 import HomePageUserAvatar from "./_components/HomePageUserAvatar";
-import { useAuth } from "@/utils/userContext";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (
