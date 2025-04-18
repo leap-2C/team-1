@@ -22,6 +22,7 @@ const Page = () => {
   const [avatarImage, setAvatarImage] = useState("");
   const { push } = useRouter();
   const { currentUserData, token } = useCurrent();
+
   // const current = useCurrent();
   // if(!current){
   //   return <div>...Loading</div>
@@ -75,8 +76,8 @@ const Page = () => {
 
       if (res.status === 201) {
         const { profileExists } = res.data;
-        if (!profileExists) {
-          push("/profile");
+        if (profileExists) {
+          push("/");
         } else {
           push("/");
         }
@@ -89,6 +90,8 @@ const Page = () => {
       } else {
         setError("Unexpected error occurred");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
