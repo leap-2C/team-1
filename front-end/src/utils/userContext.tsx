@@ -1,11 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-
-type User = {
-  id: string;
-  email: string;
-};
+import { User } from "@/app/types";
 
 interface UserContextType {
   userData: User | null;
@@ -31,7 +27,7 @@ export const UserContextProvider = ({
         const parsed = JSON.parse(saved);
         setUserData(parsed);
       } catch (e) {
-        console.error("Invalid user data in storage");
+        console.error("Invalid user data in storage", e);
       }
     }
   }, []);

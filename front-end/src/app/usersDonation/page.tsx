@@ -23,10 +23,9 @@ const Donation = () => {
         <div className="relative rounded-xl top-[-70px] z-20 w-full max-w-[1280px] mx-auto flex items-start justify-start gap-5">
       {currentUserData?.username && currentUserData?.profile && (
   <UserAvatar
-    username={currentUserData.username}
-    email={currentUserData.email}
-    profile={currentUserData.profile}
+    {...currentUserData}
   />
+
 )}
           <DonationSection/>
         </div>

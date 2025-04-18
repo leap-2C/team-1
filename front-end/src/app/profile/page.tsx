@@ -10,6 +10,7 @@ import axios from "axios";
 import { useCurrent } from "@/utils/currentUserContext";
 import Cloudinary from "@/components/cloudinaryWidget";
 
+
 const Page = () => {
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
@@ -65,7 +66,7 @@ const Page = () => {
         name,
         about,
         SocialMediaURL,
-        userId: currentUserData.id,
+        userId: currentUserData?.id,
       };
 
       const res = await axiosInstance.post("users/profile", profileData, {
@@ -74,7 +75,7 @@ const Page = () => {
         },
       });
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         const { profileExists } = res.data;
         if (profileExists) {
           push("/");

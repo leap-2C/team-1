@@ -27,9 +27,17 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setToken(JSON.parse(localStorage.getItem("authorization") || ""));
+      try {
+        const storedToken = localStorage.getItem("authorization");
+        if (storedToken) {
+          setToken(JSON.parse(storedToken));
+        }
+      } catch (e) {
+        console.error("Failed to parse token from localStorage", e);
+      }
     }
-  }, []);
+  }, [])
+  
 
   const getUserData = async () => {
     if (!token) return;
@@ -60,4 +68,10 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
     </CurrentUser.Provider>
   );
 };
-export const useCurrent = () => useContext(CurrentUser);
+export const useCurrent = (): CurrentUserProps => {
+  const context = useContext(CurrentUser);
+  if (!context) {
+    throw new Error("useCurrent must be used within a CurrentUserProvider");
+  }
+  return context;
+};

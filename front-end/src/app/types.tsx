@@ -3,6 +3,7 @@ export type ProfileDetail = {
   about: string;
   avatarImage: string;
   SocialMediaURL: string;
+  backgroundImage:string;
 };
 
 export type User = {
@@ -20,3 +21,10 @@ export type Donation = {
   updatedAt: string;
   donorUsers?: User
 };
+
+export interface UserContextProps {
+  token: string | null;
+  userId: number | null;
+  setToken: (token: string | null) => void;
+  setUserId: (id: number | null) => void;
+}
