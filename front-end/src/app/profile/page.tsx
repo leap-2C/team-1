@@ -77,8 +77,8 @@ const Page = () => {
 
       if (res.status === 200) {
         const { profileExists } = res.data;
-        if (profileExists) {
-          push("/");
+        if (!profileExists) {
+          push("/profile");
         } else {
           push("/");
         }
