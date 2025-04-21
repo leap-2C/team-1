@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import { UserContextProvider } from "../utils/userContext";
 import { CurrentUserProvider } from "@/utils/currentUserContext";
-
+import { AuthProvider } from "@/utils/AuthContext";
 export default function MainRoot({
   children,
 }: Readonly<{
@@ -17,14 +17,16 @@ export default function MainRoot({
 
   return (
     <html lang="en">
-      <CurrentUserProvider>
-        <UserContextProvider>
-          <body>
-            {shouldDisplayHeader && <Header />}
-            {children}
-          </body>
-        </UserContextProvider>
-      </CurrentUserProvider>
+      <AuthProvider>
+        <CurrentUserProvider>
+          <UserContextProvider>
+            <body>
+              {shouldDisplayHeader && <Header />}
+              {children}
+            </body>
+          </UserContextProvider>
+        </CurrentUserProvider>
+      </AuthProvider>
     </html>
   );
 }
