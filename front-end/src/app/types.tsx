@@ -22,7 +22,7 @@ export type Donation = {
   donorUsers?: User
 };
 
-export interface UserContextProps {
+export type UserContextProps = {
   token: string | null;
   userId: number | null;
   setToken: (token: string | null) => void;
