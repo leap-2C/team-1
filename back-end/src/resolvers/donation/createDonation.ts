@@ -68,11 +68,3 @@ export const createDonation = async (
     });
   }
 };
-
-// {
-//     "amount":"10",
-//     "specialMessage":"Good luck",
-//     "socialURLOrBuyMeCoffee":"https://buymeacoffee.com/",
-//     "donorId":"1",
-//     "recipientId":"2"
-// }

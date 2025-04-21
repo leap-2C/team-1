@@ -23,12 +23,6 @@ const Page = () => {
   const { push } = useRouter();
   const { currentUserData, token } = useCurrent();
 
-  // const current = useCurrent();
-  // if(!current){
-  //   return <div>...Loading</div>
-  // }
-  // const { currentUserData, token } = current
-
   const handleContinue = () => {
     let hasError = false;
 
