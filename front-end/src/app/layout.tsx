@@ -6,6 +6,7 @@ import "./globals.css";
 import { UserContextProvider } from "../utils/userContext";
 import { CurrentUserProvider } from "@/utils/currentUserContext";
 import { AuthProvider } from "@/utils/AuthContext";
+import DashBoard from "@/components/DashBoard";
 export default function MainRoot({
   children,
 }: Readonly<{
@@ -22,6 +23,7 @@ export default function MainRoot({
           <UserContextProvider>
             <body>
               {shouldDisplayHeader && <Header />}
+              <DashBoard/>
               {children}
             </body>
           </UserContextProvider>

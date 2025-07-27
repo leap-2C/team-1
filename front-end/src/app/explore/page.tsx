@@ -1,6 +1,5 @@
 "use client";
 
-import DashBoard from "@/components/DashBoard";
 import SearchBar from "@/components/SearchBar";
 import CreatorCard from "@/components/CreatorCard";
 import { useEffect, useState } from "react";
@@ -51,10 +50,7 @@ export default function Explore() {
   }, []);
 
   return (
-    <div className="flex w-full min-h-screen max-w-[1440px] mx-auto">
-      <div className="w-1/3">
-        <DashBoard />
-      </div>
+    <div className="flex w-full min-h-screen max-w-[1440px] mx-auto justify-center">
       <div className="w-2/3 mr-20">
         <div className="flex flex-col mt-[44px] gap-6">
           <h4 className="text-[20px] leading-[28px] font-semibold">

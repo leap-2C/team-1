@@ -10,6 +10,7 @@ import CarouselImage3 from "@/assets/images/coffee3.png";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/lib/addedAxiosInstance";
 import axios from "axios";
+import { useCurrent } from "@/utils/currentUserContext";
 
 const Login = () => {
   const { push } = useRouter();
@@ -20,6 +21,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
+  const { setToken } = useCurrent();
 
   const validateInputs = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,6 +66,7 @@ const Login = () => {
       if (address.status === 200) {
         const { token, profileExists } = address.data;
         localStorage.setItem("authorization", JSON.stringify(token));
+        setToken(token)
         if (!profileExists) {
           push("/profile");
         } else {

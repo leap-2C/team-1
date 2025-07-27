@@ -16,6 +16,7 @@ export type CurrentUserProps = {
   setCurrentUserData: (User: User) => void;
   error?: string;
   token: string | null;
+  setToken: (token: string) => void;
 };
 
 export const CurrentUser = createContext<CurrentUserProps | null>(null);
@@ -23,7 +24,7 @@ export const CurrentUser = createContext<CurrentUserProps | null>(null);
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [currentUserData, setCurrentUserData] = useState<User>();
   const [error, setError] = useState("");
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -62,7 +63,7 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CurrentUser.Provider
-      value={{ error, token, currentUserData, setCurrentUserData }}
+      value={{ error, token, setToken, currentUserData, setCurrentUserData }}
     >
       {children}
     </CurrentUser.Provider>

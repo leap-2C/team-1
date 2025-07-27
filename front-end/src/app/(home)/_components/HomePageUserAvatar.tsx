@@ -18,6 +18,7 @@ import { Donation } from "@/app/types";
 
 const HomePageUserAvatar = () => {
   const current = useCurrent();
+  console.log(current, "current")
 
   const [donations, setDonations] = useState([]);
   const [, setError] = useState("");
@@ -57,7 +58,6 @@ const HomePageUserAvatar = () => {
   const totalAmount = donations?.reduce((sum: number, donation: Donation) => {
     return sum = sum + Number(donation.amount);
   }, 0)
-  console.log(currentUserData)
   return (
     <div className="w-[955px] gap-5 flex flex-col items-start justify-start">
       <div className="w-full rounded-lg border border-solid gap-2 p-6 bg-white">

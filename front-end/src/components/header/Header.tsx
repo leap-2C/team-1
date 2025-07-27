@@ -14,8 +14,6 @@ const Header = () => {
   console.log("Header mounted");
 
   const handleLogout = () => {
-    console.log("Button clicked!");
-
     try {
       authLogout();
       localStorage.removeItem("authorization");
@@ -27,7 +25,7 @@ const Header = () => {
   };
 
   return (
-    <div className="inset-x-0 h-[59px] bg-background flex items-center justify-center">
+    <div className="inset-x-0 h-[59px] bg-pink-200 flex items-center justify-center">
       <div className="flex items-center justify-between w-full max-w-screen-xl px-5 lg:px-0">
         <Link href="/" className="flex items-center gap-x-2 cursor-pointer">
           <Coffee className="w-9 h-9" />
