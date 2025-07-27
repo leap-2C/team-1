@@ -20,10 +20,11 @@ const Page = () => {
   const [aboutError, setAboutError] = useState("");
   const [socialMediaError, setSocialMediaError] = useState("");
   const [avatarImage, setAvatarImage] = useState("");
-  const { push } = useRouter();
+  const router = useRouter();
   const { currentUserData, token } = useCurrent();
-
-  const handleContinue = () => {
+  console.log("currentUserData:", currentUserData);
+  console.log("token:", token);
+  const CreateProfile = async () => {
     let hasError = false;
 
     if (!name) {
@@ -42,18 +43,10 @@ const Page = () => {
     } else setSocialMediaError("");
 
     if (hasError) return;
-  };
 
-  const CreateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!currentUserData && !token) {
-      setError("User is not authenticated. Please log in.");
-      return;
-    }
+    setLoading(true);
 
     try {
-      setLoading(true);
-
       const profileData = {
         avatarImage,
         name,
@@ -69,24 +62,18 @@ const Page = () => {
       });
 
       if (res.status === 200) {
-        const { profileExists } = res.data;
-        if (!profileExists) {
-          push("/");
-        } else {
-          push("/");
-        }
+        console.log(res.data, "message");
+        router.push("/");
+        return;
       }
     } catch (err) {
-      console.error("Error while creating profile:", err);
-      setLoading(false);
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Something went wrong");
-      } else {
-        setError("Unexpected error occurred");
-      }
-    } finally {
-      setLoading(false);
+    if (axios.isAxiosError(err)) {
+      setError(err.response?.data?.message || "Something went wrong");
+    } else {
+      setError("Unexpected error occurred");
     }
+    setLoading(false);
+  }
   };
 
   return (
@@ -155,17 +142,17 @@ const Page = () => {
         </div>
       </div>
 
-      <form onSubmit={CreateProfile}>
-        <Button
-          className="w-[246px] h-[40px] mt-6"
-          onClick={handleContinue}
-          type="submit"
-          disabled={loading}
-        >
-          Continue
-        </Button>
-        {loading && <div>...loading</div>}
-      </form>
+      <Button
+        className="w-[246px] h-[40px] mt-6"
+        onClick={CreateProfile}
+        disabled={loading || !token || !currentUserData?.id}
+      >
+        {loading ? (
+          <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white" />
+        ) : (
+          "Continue"
+        )}
+      </Button>
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
